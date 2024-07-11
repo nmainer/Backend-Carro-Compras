@@ -4,6 +4,8 @@ import { ProductsModule } from './Products/products.module';
 import { AuthModule } from './Auth/auth.module';
 
 @Module({
-  imports: [UserModule,ProductsModule,AuthModule]
+  imports: [UserModule,ProductsModule,AuthModule],
+  providers: [],
+  controllers:[]
 })
 export class AppModule {}

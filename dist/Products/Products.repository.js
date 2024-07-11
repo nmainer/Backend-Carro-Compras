@@ -9,20 +9,33 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ProductsService = void 0;
+exports.ProductsRepository = void 0;
 const common_1 = require("@nestjs/common");
-const Products_repository_1 = require("./Products.repository");
-let ProductsService = class ProductsService {
-    constructor(productsRepository) {
-        this.productsRepository = productsRepository;
+let ProductsRepository = class ProductsRepository {
+    constructor() {
+        this.products = [
+            { id: 1,
+                name: "producto 1",
+                description: "varios",
+                price: 55,
+                stock: true,
+                imgUrl: "jpg.jpg"
+            },
+            { id: 1,
+                name: "producto 2",
+                description: "varios",
+                price: 1155,
+                stock: true,
+                imgUrl: "jpg.jpg" }
+        ];
     }
-    getProducts() {
-        return this.productsRepository.getProducts();
+    async getProducts() {
+        return this.products;
     }
 };
-exports.ProductsService = ProductsService;
-exports.ProductsService = ProductsService = __decorate([
+exports.ProductsRepository = ProductsRepository;
+exports.ProductsRepository = ProductsRepository = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [Products_repository_1.ProductsRepository])
-], ProductsService);
-//# sourceMappingURL=products.service.js.map
+    __metadata("design:paramtypes", [])
+], ProductsRepository);
+//# sourceMappingURL=Products.repository.js.map

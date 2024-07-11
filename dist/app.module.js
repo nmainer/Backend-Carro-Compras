@@ -17,8 +17,8 @@ exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [user_module_1.UserModule, products_module_1.ProductsModule, auth_module_1.AuthModule],
-        controllers: [],
         providers: [],
+        controllers: []
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

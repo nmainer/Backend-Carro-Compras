@@ -1,12 +1,16 @@
 import { Injectable } from "@nestjs/common";
+import { UsersRepository } from "./User.Repository";
 
 
 
 @Injectable()
-export class UsersService{
-    getUsers(){
-        return "hola"
+export class UserService{
+    constructor(private readonly userRepository : UsersRepository){}
+     
+    
+     getUsers() {
+     return this.userRepository.getRepository();
     }
 }
-
+ 
 

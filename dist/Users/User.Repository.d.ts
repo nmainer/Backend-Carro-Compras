@@ -1,8 +1,7 @@
-import { UserService } from "../Users/user.service";
-export declare class UserController {
-    private readonly userService;
-    constructor(userService: UserService);
-    getUsers(): Promise<{
+export declare class UsersRepository {
+    constructor();
+    private user;
+    getRepository(): Promise<{
         id: number;
         email: string;
         name: string;

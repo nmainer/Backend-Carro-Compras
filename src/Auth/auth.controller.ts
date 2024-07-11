@@ -10,6 +10,6 @@ export class AuthController {
     @Get()
     getAuth(){
         return this.authService.getAuth()
-    }
+    }   
 };
 
