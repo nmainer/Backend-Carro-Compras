@@ -11,13 +11,14 @@ const common_1 = require("@nestjs/common");
 const products_controller_1 = require("./products.controller");
 const products_service_1 = require("./products.service");
 const Products_repository_1 = require("./Products.repository");
+const Auth_guard_1 = require("../Auth/Auth.guard");
 let ProductsModule = class ProductsModule {
 };
 exports.ProductsModule = ProductsModule;
 exports.ProductsModule = ProductsModule = __decorate([
     (0, common_1.Module)({
         imports: [],
-        providers: [products_service_1.ProductsService, Products_repository_1.ProductsRepository],
+        providers: [products_service_1.ProductsService, Products_repository_1.ProductsRepository, Auth_guard_1.AuthGuard],
         controllers: [products_controller_1.ProductsController]
     })
 ], ProductsModule);
