@@ -1,63 +1,93 @@
 import { Injectable } from "@nestjs/common";
-import { Product } from "./products.interface";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Product} from "src/Entities/Products/products.entity";
+import { Repository, ServerDescription } from "typeorm";
+import { Category } from "src/Entities/Categories/categories.entity";
+import { ProductsDto } from "./ProductsDto";
+import { identity } from "rxjs";
 
 
 @Injectable()
 export class ProductsRepository {
 
     
-constructor(){}
-private products = [
-{
-id:1,
-name: "producto 1",
-description: "varios",
-price: 55,
-stock: true,
-imgUrl: "jpg.jpg"
-},
-{
-id:2,
-name: "producto 2",
-description: "varios",
-price: 1155,
-stock: true,
-imgUrl: "jpg.jpg"}
-];
+constructor(@InjectRepository(Product) private repositoryProduct : Repository<Product> ,
+            @InjectRepository(Category) private repositoryCategory : Repository<Category>){}
 
- async getProducts(page: number , limit:number){
-    const productos = this.products;
-    const skipe = (page-1)*limit;
-    return productos.slice(skipe , skipe+limit)
+
+async getProducts(page: number , limit:number): Promise<Product[]>{
+    const skipe = (page-1) * limit;
+    const valoresprod= await  this.repositoryProduct.find ({
+        skip: skipe,
+        take: limit,
+        relations:["category"]
+    })
+    return valoresprod; 
 }
-async getNewProduct(product: Product) {
- const id = this.products.length + 1 ;
- this.products= [...this.products , {id,...product}]
- return `producto con N° de id ${id} creado`
+
+async getNewProduct(product:ProductsDto[]) : Promise<Product|string> {
+    
+  for (const produ of product) {
+
+
+    const categoria = await this.repositoryCategory.findOne({where:{name: produ.category}});
+
+    if(categoria){
+        const productExist = await this.repositoryProduct.findOne({where:{name: produ.name}});
+        
+        if(!productExist){
+
+            const newProduct =  new Product();
+            newProduct.name = produ.name,
+            newProduct.description = produ.description ,
+            newProduct.price = produ.price,
+            newProduct.stock = produ.stock
+            newProduct.category = categoria
+
+         await this.repositoryProduct.save(newProduct);
+       
+        
+        } else {
+           return `el producto ya existe`
+        }
+    }
+  }
+  return `producto/s creado/s`
 }
-async putProduct(id: number, product: Product) {
-    const productIndex = await this.products.findIndex(elemento =>elemento.id ===id);
-    if(productIndex!== -1){
-        const elem = this.products[productIndex]
-        const actualizer = {...elem ,...product}
-        this.products[productIndex] = actualizer;
+
+
+
+
+async putProduct(id:string , product: Product):Promise<string> {
+
+    const productnew = await this.repositoryProduct.findOneBy({id});
+    if(productnew){
+        const actualizer = {...productnew ,...product}
+
+        await this.repositoryProduct.save(actualizer)
+   
         return `producto con N° id ${id} fue modificado`
     }
     return `id no encontrado`
 }
-async deleteProduct(id: number) {
-    const productId = await this.products.findIndex(elemento =>elemento.id ===id);
-    if (productId !== -1){
-        this.products.splice(productId , 1)
+
+
+async deleteProduct(id:string):Promise<string> {
+
+    const productId = await this.repositoryProduct.findOneBy({id});
+    if (productId){
+
+        this.repositoryProduct.delete(productId)
+
         return ` el producto con id N° ${id} fue eliminado`
     }
     return `id inexistente`
 }
 
-async productId(id: number) {
-   const valor =  this.products.find(elemento =>elemento.id ===id);
-   if(valor){
-    return valor;
+async productId(id:string): Promise<Product|string> {
+   const productId =  this.repositoryProduct.findOneBy({id});
+   if(productId){
+    return productId;
    }
    return `id no encontrado`
 }

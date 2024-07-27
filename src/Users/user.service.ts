@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { UsersRepository } from "./User.Repository";
-import { User } from "./interface.user";
 import { userDto } from "./UserDto";
 
 
@@ -15,17 +14,17 @@ export class UserService{
      return this.userRepository.getRepository(page,limit);
     }
 
-    getUserbyId(id: number) {
+    getUserbyId(id: string) {
         return this.userRepository.getUserId(id)
     }
 
-    getNewUser(us : User){
+    getNewUser(us : userDto){
        return this.userRepository.getNewUser(us)
     }
-    getPutUsers(id:number , user : userDto) {
+    getPutUsers(id:string, user : userDto) {
         return this.userRepository.getPutUser(id,user)
     }
-    deleteUser(id:number) {
+    deleteUser(id:string) {
        return this.userRepository.deleteUser(id);
       }
 }

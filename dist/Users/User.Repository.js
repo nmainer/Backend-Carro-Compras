@@ -8,81 +8,70 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersRepository = void 0;
 const common_1 = require("@nestjs/common");
+const typeorm_1 = require("@nestjs/typeorm");
+const Users_entity_1 = require("../Entities/Users/Users.entity");
+const typeorm_2 = require("typeorm");
 let UsersRepository = class UsersRepository {
-    constructor() {
-        this.user = [
-            {
-                id: 1,
-                email: "mail@mail.com",
-                name: "nicolas",
-                password: "1234",
-                address: "Espora 308",
-                phone: 455889,
-                country: "Argentina",
-                city: "Santa Fe"
-            },
-            {
-                id: 2,
-                email: "mail@mail.com",
-                name: "maria",
-                password: "1234",
-                address: "Avellaneda 113",
-                phone: 45587,
-                country: "Argentina",
-                city: "Cap Fed"
-            }
-        ];
+    constructor(repositoryUser) {
+        this.repositoryUser = repositoryUser;
     }
     async getRepository(page, limit) {
-        const valores = this.user.map(us => ({ id: us.id, email: us.email, name: us.name, address: us.address, phone: us.phone,
-            country: us.country, city: us.city
+        const users = await this.repositoryUser.find({ relations: ["orders"] });
+        const valorMap = users.map(us => ({ id: us.id, email: us.email, name: us.name, address: us.address, phone: us.phone,
+            country: us.country, city: us.city, orders: us.orders
         }));
         const skip = (page - 1) * limit;
-        const userPage = valores.slice(skip, skip + limit);
+        const userPage = valorMap.slice(skip, skip + limit);
         return userPage;
     }
     async getUserId(id) {
-        const us = await this.user.find(elemento => elemento.id === id);
+        const us = await this.repositoryUser.findOne({ where: { id } });
         if (us) {
-            return ({ id: us.id, email: us.email, name: us.name, address: us.address, phone: us.phone, country: us.country, city: us.city });
+            return {
+                id: us.id,
+                email: us.email,
+                name: us.name,
+                address: us.address,
+                phone: us.phone,
+                country: us.country,
+                city: us.city,
+                orders: us.orders
+            };
         }
-        return `id N° ${id} es inexistente`;
+        return `usuario inexistente`;
     }
     async getNewUser(us) {
-        const id = this.user.length + 1;
-        this.user = [...this.user, { id, ...us }];
-        return `id generado: ${id}`;
+        const newUser = await this.repositoryUser.save(us);
+        return `id generado: ${newUser.id}`;
     }
     async getPutUser(id, userdto) {
-        const userid = await this.user.findIndex(elemento => elemento.id === id);
-        if (userid !== -1) {
-            const users = this.user[userid];
-            const userActualizer = { ...users, ...userdto };
-            this.user[userid] = userActualizer;
-            return `ususario con id N°${id} fue modificado`;
+        const userid = await this.repositoryUser.findOne({ where: { id } });
+        if (userid) {
+            const users = { ...userid, ...userdto };
+            await this.repositoryUser.save(users);
+            return `ususario con id N°${users.id} fue modificado`;
         }
         return `id no encontrado`;
     }
     async deleteUser(id) {
-        const user = await this.user.findIndex(elemento => elemento.id === id);
-        if (user !== -1) {
-            const valor = this.user[user];
-            this.user.splice(user, 1);
-            return `el usuario con id N° ${id} fue eliminado`;
+        const user = await this.repositoryUser.findOne({ where: { id } });
+        if (user) {
+            const valor = await this.repositoryUser.remove(user);
+            return `el registro ${valor} fue eliminado`;
         }
         return `id no encontrado`;
-    }
-    async userByEmail(email) {
-        const valor = this.user.find(elemento => elemento.email === email);
-        return valor;
     }
 };
 exports.UsersRepository = UsersRepository;
 exports.UsersRepository = UsersRepository = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [])
+    __param(0, (0, typeorm_1.InjectRepository)(Users_entity_1.User)),
+    __metadata("design:paramtypes", [typeorm_2.Repository])
 ], UsersRepository);
 //# sourceMappingURL=User.Repository.js.map

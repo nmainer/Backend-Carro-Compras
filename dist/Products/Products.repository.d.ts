@@ -1,24 +1,14 @@
-import { Product } from "./products.interface";
+import { Product } from "src/Entities/Products/products.entity";
+import { Repository } from "typeorm";
+import { Category } from "src/Entities/Categories/categories.entity";
+import { ProductsDto } from "./ProductsDto";
 export declare class ProductsRepository {
-    constructor();
-    private products;
-    getProducts(page: number, limit: number): Promise<{
-        id: number;
-        name: string;
-        description: string;
-        price: number;
-        stock: boolean;
-        imgUrl: string;
-    }[]>;
-    getNewProduct(product: Product): Promise<string>;
-    putProduct(id: number, product: Product): Promise<string>;
-    deleteProduct(id: number): Promise<string>;
-    productId(id: number): Promise<"id no encontrado" | {
-        id: number;
-        name: string;
-        description: string;
-        price: number;
-        stock: boolean;
-        imgUrl: string;
-    }>;
+    private repositoryProduct;
+    private repositoryCategory;
+    constructor(repositoryProduct: Repository<Product>, repositoryCategory: Repository<Category>);
+    getProducts(page: number, limit: number): Promise<Product[]>;
+    getNewProduct(product: ProductsDto[]): Promise<Product | string>;
+    putProduct(id: string, product: Product): Promise<string>;
+    deleteProduct(id: string): Promise<string>;
+    productId(id: string): Promise<Product | string>;
 }

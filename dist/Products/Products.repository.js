@@ -8,62 +8,72 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductsRepository = void 0;
 const common_1 = require("@nestjs/common");
+const typeorm_1 = require("@nestjs/typeorm");
+const products_entity_1 = require("../Entities/Products/products.entity");
+const typeorm_2 = require("typeorm");
+const categories_entity_1 = require("../Entities/Categories/categories.entity");
 let ProductsRepository = class ProductsRepository {
-    constructor() {
-        this.products = [
-            {
-                id: 1,
-                name: "producto 1",
-                description: "varios",
-                price: 55,
-                stock: true,
-                imgUrl: "jpg.jpg"
-            },
-            {
-                id: 2,
-                name: "producto 2",
-                description: "varios",
-                price: 1155,
-                stock: true,
-                imgUrl: "jpg.jpg"
-            }
-        ];
+    constructor(repositoryProduct, repositoryCategory) {
+        this.repositoryProduct = repositoryProduct;
+        this.repositoryCategory = repositoryCategory;
     }
     async getProducts(page, limit) {
-        const productos = this.products;
         const skipe = (page - 1) * limit;
-        return productos.slice(skipe, skipe + limit);
+        const valoresprod = await this.repositoryProduct.find({
+            skip: skipe,
+            take: limit,
+            relations: ["category"]
+        });
+        return valoresprod;
     }
     async getNewProduct(product) {
-        const id = this.products.length + 1;
-        this.products = [...this.products, { id, ...product }];
-        return `producto con N° de id ${id} creado`;
+        for (const produ of product) {
+            const categoria = await this.repositoryCategory.findOne({ where: { name: produ.category } });
+            if (categoria) {
+                const productExist = await this.repositoryProduct.findOne({ where: { name: produ.name } });
+                if (!productExist) {
+                    const newProduct = new products_entity_1.Product();
+                    newProduct.name = produ.name,
+                        newProduct.description = produ.description,
+                        newProduct.price = produ.price,
+                        newProduct.stock = produ.stock;
+                    newProduct.category = categoria;
+                    await this.repositoryProduct.save(newProduct);
+                }
+                else {
+                    return `el producto ya existe`;
+                }
+            }
+        }
+        return `producto/s creado/s`;
     }
     async putProduct(id, product) {
-        const productIndex = await this.products.findIndex(elemento => elemento.id === id);
-        if (productIndex !== -1) {
-            const elem = this.products[productIndex];
-            const actualizer = { ...elem, ...product };
-            this.products[productIndex] = actualizer;
+        const productnew = await this.repositoryProduct.findOneBy({ id });
+        if (productnew) {
+            const actualizer = { ...productnew, ...product };
+            await this.repositoryProduct.save(actualizer);
             return `producto con N° id ${id} fue modificado`;
         }
         return `id no encontrado`;
     }
     async deleteProduct(id) {
-        const productId = await this.products.findIndex(elemento => elemento.id === id);
-        if (productId !== -1) {
-            this.products.splice(productId, 1);
+        const productId = await this.repositoryProduct.findOneBy({ id });
+        if (productId) {
+            this.repositoryProduct.delete(productId);
             return ` el producto con id N° ${id} fue eliminado`;
         }
         return `id inexistente`;
     }
     async productId(id) {
-        const valor = this.products.find(elemento => elemento.id === id);
-        if (valor) {
-            return valor;
+        const productId = this.repositoryProduct.findOneBy({ id });
+        if (productId) {
+            return productId;
         }
         return `id no encontrado`;
     }
@@ -71,6 +81,9 @@ let ProductsRepository = class ProductsRepository {
 exports.ProductsRepository = ProductsRepository;
 exports.ProductsRepository = ProductsRepository = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [])
+    __param(0, (0, typeorm_1.InjectRepository)(products_entity_1.Product)),
+    __param(1, (0, typeorm_1.InjectRepository)(categories_entity_1.Category)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository])
 ], ProductsRepository);
 //# sourceMappingURL=Products.repository.js.map

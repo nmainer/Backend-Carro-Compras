@@ -1,7 +1,8 @@
-import { UsersRepository } from "src/Users/User.Repository";
 import { UserDto } from "./LoginDto";
+import { User } from "src/Entities/Users/Users.entity";
+import { Repository } from "typeorm";
 export declare class RespositoryAuth {
     private readonly repositorioUser;
-    constructor(repositorioUser: UsersRepository);
+    constructor(repositorioUser: Repository<User>);
     getLogin(Login: UserDto): Promise<string>;
 }

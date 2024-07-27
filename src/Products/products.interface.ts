@@ -5,14 +5,14 @@ export interface ProductId {
     name: string
     description: string
     price: number
-    stock:boolean
+    stock:number
     imgUrl:string
 }
 
-export interface Product {
+export interface product {
     name: string
     description: string
     price: number
-    stock:boolean
+    stock:number
     imgUrl:string
 }

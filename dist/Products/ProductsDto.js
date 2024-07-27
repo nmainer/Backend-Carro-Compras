@@ -26,17 +26,15 @@ __decorate([
 ], ProductsDto.prototype, "description", void 0);
 __decorate([
     (0, class_validator_1.IsNumber)(),
-    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Number)
 ], ProductsDto.prototype, "price", void 0);
 __decorate([
-    (0, class_validator_1.IsBoolean)(),
+    (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", Boolean)
+    __metadata("design:type", Number)
 ], ProductsDto.prototype, "stock", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
-], ProductsDto.prototype, "imgUrl", void 0);
+], ProductsDto.prototype, "category", void 0);
 //# sourceMappingURL=ProductsDto.js.map

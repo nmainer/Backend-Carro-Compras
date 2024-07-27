@@ -16,6 +16,7 @@ exports.ProductsController = void 0;
 const common_1 = require("@nestjs/common");
 const products_service_1 = require("./products.service");
 const Auth_guard_1 = require("../Auth/Auth.guard");
+const products_entity_1 = require("../Entities/Products/products.entity");
 let ProductsController = class ProductsController {
     constructor(productsService) {
         this.productsService = productsService;
@@ -27,15 +28,15 @@ let ProductsController = class ProductsController {
         return this.productsService.getNewProduct(product);
     }
     getPutproducts(id, product) {
-        const productId = Number(id);
+        const productId = id;
         return this.productsService.putProduct(productId, product);
     }
     deleteProducts(id) {
-        const productId = Number(id);
+        const productId = id;
         return this.productsService.deleteProduct(productId);
     }
     getProductbyId(id) {
-        const productId = Number(id);
+        const productId = id;
         return this.productsService.productId(productId);
     }
 };
@@ -51,11 +52,11 @@ __decorate([
 ], ProductsController.prototype, "getProduct", null);
 __decorate([
     (0, common_1.HttpCode)(201),
-    (0, common_1.Post)(),
+    (0, common_1.Post)("seeder"),
     (0, common_1.UseGuards)(Auth_guard_1.AuthGuard),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Array]),
     __metadata("design:returntype", void 0)
 ], ProductsController.prototype, "getPost", null);
 __decorate([
@@ -65,7 +66,7 @@ __decorate([
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:paramtypes", [String, products_entity_1.Product]),
     __metadata("design:returntype", void 0)
 ], ProductsController.prototype, "getPutproducts", null);
 __decorate([

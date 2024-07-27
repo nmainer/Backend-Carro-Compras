@@ -1,7 +1,9 @@
 import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, UseGuards } from "@nestjs/common";
 import { ProductsService } from "./products.service";
-import { Product } from "./products.interface";
 import { AuthGuard } from "src/Auth/Auth.guard";
+import { Product } from "src/Entities/Products/products.entity";
+import { ProductsDto } from "./ProductsDto";
+
 
 
 @Controller("products")
@@ -15,9 +17,9 @@ export class ProductsController{
     }
     
     @HttpCode(201)
-    @Post()
+    @Post("seeder")
     @UseGuards(AuthGuard)
-    getPost(@Body() product: Product){
+    getPost(@Body() product:ProductsDto[]){
         return this.productsService.getNewProduct(product);
     }
     
@@ -25,7 +27,7 @@ export class ProductsController{
     @Put(":id")
     @UseGuards(AuthGuard)
     getPutproducts(@Param("id") id : string , @Body() product: Product){
-        const productId = Number(id);
+        const productId = id;
         return this.productsService.putProduct(productId , product);
     }
     
@@ -33,14 +35,14 @@ export class ProductsController{
     @Delete(":id")
     @UseGuards(AuthGuard)
     deleteProducts(@Param("id") id : string){
-     const productId = Number(id);
+     const productId = id;
      return this.productsService.deleteProduct(productId)
     }
     @HttpCode(200)
     @Get(":id")
     @UseGuards(AuthGuard)
     getProductbyId(@Param("id") id: string){
-      const productId = Number(id);
+      const productId = id;
       return this.productsService.productId(productId);
     }
 };

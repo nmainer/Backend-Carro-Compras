@@ -1,25 +1,12 @@
 import { ProductsService } from "./products.service";
-import { Product } from "./products.interface";
+import { Product } from "src/Entities/Products/products.entity";
+import { ProductsDto } from "./ProductsDto";
 export declare class ProductsController {
     private readonly productsService;
     constructor(productsService: ProductsService);
-    getProduct(page?: number, limit?: number): Promise<{
-        id: number;
-        name: string;
-        description: string;
-        price: number;
-        stock: boolean;
-        imgUrl: string;
-    }[]>;
-    getPost(product: Product): Promise<string>;
+    getProduct(page?: number, limit?: number): Promise<Product[]>;
+    getPost(product: ProductsDto[]): Promise<string | Product>;
     getPutproducts(id: string, product: Product): Promise<string>;
     deleteProducts(id: string): Promise<string>;
-    getProductbyId(id: string): Promise<{
-        id: number;
-        name: string;
-        description: string;
-        price: number;
-        stock: boolean;
-        imgUrl: string;
-    } | "id no encontrado">;
+    getProductbyId(id: string): Promise<string | Product>;
 }

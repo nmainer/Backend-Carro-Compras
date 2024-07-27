@@ -11,12 +11,24 @@ const common_1 = require("@nestjs/common");
 const user_module_1 = require("./Users/user.module");
 const products_module_1 = require("./Products/products.module");
 const auth_module_1 = require("./Auth/auth.module");
+const typeorm_1 = require("@nestjs/typeorm");
+const config_1 = require("@nestjs/config");
+const typeorm_2 = require("./Config/typeorm");
+const categorie_module_1 = require("./Categories/categorie.module");
+const Order_module_1 = require("./Order/Order.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [user_module_1.UserModule, products_module_1.ProductsModule, auth_module_1.AuthModule],
+        imports: [user_module_1.UserModule, Order_module_1.ModuleOrder, products_module_1.ProductsModule, auth_module_1.AuthModule, categorie_module_1.CategorieModule, typeorm_1.TypeOrmModule.forRootAsync({
+                inject: [config_1.ConfigService],
+                useFactory: (configService) => configService.get("typeorm")
+            }),
+            config_1.ConfigModule.forRoot({
+                isGlobal: true,
+                load: [typeorm_2.default],
+            })],
         providers: [],
         controllers: []
     })

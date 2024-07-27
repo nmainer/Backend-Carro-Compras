@@ -28,16 +28,13 @@ let UserController = class UserController {
         return this.userService.getNewUser(us);
     }
     getPutUsers(id, userdto) {
-        const userId = Number(id);
-        return this.userService.getPutUsers(userId, userdto);
+        return this.userService.getPutUsers(id, userdto);
     }
     deleteUser(id) {
-        const userId = Number(id);
-        return this.userService.deleteUser(userId);
+        return this.userService.deleteUser(id);
     }
     getUserbyId(id) {
-        const userId = Number(id);
-        return this.userService.getUserbyId(userId);
+        return this.userService.getUserbyId(id);
     }
 };
 exports.UserController = UserController;
@@ -56,7 +53,7 @@ __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [UserDto_1.userDto]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "getPostUsers", null);
 __decorate([

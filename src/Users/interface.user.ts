@@ -1,5 +1,6 @@
+import { Order } from "src/Entities/Orders/Orders.entity"
 
-export interface User {
+export interface user {
     
     email: string,
     name: string,
@@ -11,13 +12,14 @@ export interface User {
 }
    
 export interface User2 {
-    id:number,
+    id:string,
     email: string,
     name: string,
     address: string,
     phone: number,
     country: string,
-    city: string
+    city: string,
+    orders: Order[]
 }
 
 export interface User3{

@@ -1,4 +1,8 @@
-import { IsBoolean, IsNumber, IsOptional, IsString} from "class-validator";
+
+import {  IsDecimal, IsNumber, IsOptional, IsString} from "class-validator";
+
+
+
 
 export class ProductsDto {
 
@@ -11,28 +15,15 @@ name: string
 description: string
 
 @IsNumber()
-@IsOptional()
 price: number
 
-@IsBoolean()
+@IsNumber()
 @IsOptional()
-stock:boolean
+stock:number
 
 @IsString()
-@IsOptional()
-imgUrl: string
+category:string
 
 }
 
 
-
-
-
-
-
-/*id:1,
-name: "producto 2",
-description: "varios",
-price: 1155,
-stock: true,
-imgUrl: "jpg.jpg"}*/
