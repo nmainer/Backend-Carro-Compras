@@ -47,7 +47,7 @@ let ProductsRepository = class ProductsRepository {
                     await this.repositoryProduct.save(newProduct);
                 }
                 else {
-                    return `el producto ya existe`;
+                    throw new common_1.HttpException(`el producto ya existe`, common_1.HttpStatus.BAD_REQUEST);
                 }
             }
         }
@@ -60,7 +60,7 @@ let ProductsRepository = class ProductsRepository {
             await this.repositoryProduct.save(actualizer);
             return `producto con N° id ${id} fue modificado`;
         }
-        return `id no encontrado`;
+        throw new common_1.HttpException(`id no encontrado`, common_1.HttpStatus.NOT_FOUND);
     }
     async deleteProduct(id) {
         const productId = await this.repositoryProduct.findOneBy({ id });
@@ -68,14 +68,14 @@ let ProductsRepository = class ProductsRepository {
             this.repositoryProduct.delete(productId);
             return ` el producto con id N° ${id} fue eliminado`;
         }
-        return `id inexistente`;
+        throw new common_1.HttpException(`id no encontrado`, common_1.HttpStatus.NOT_FOUND);
     }
     async productId(id) {
         const productId = this.repositoryProduct.findOneBy({ id });
         if (productId) {
             return productId;
         }
-        return `id no encontrado`;
+        throw new common_1.HttpException(`id no encontrado`, common_1.HttpStatus.NOT_FOUND);
     }
 };
 exports.ProductsRepository = ProductsRepository;

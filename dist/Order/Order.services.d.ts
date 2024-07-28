@@ -1,4 +1,4 @@
-import { OrderDto, OrderDTO } from "./OrderDTO";
+import { OrderDto, CreateOrderDto } from "../DTO´S/OrderDTO";
 import { Repository } from "typeorm";
 import { Order } from "src/Entities/Orders/Orders.entity";
 import { User } from "src/Entities/Users/Users.entity";
@@ -8,6 +8,6 @@ export declare class OrderService {
     private repositoryUser;
     private respositoryProduct;
     constructor(repositoryOrder: Repository<Order>, repositoryUser: Repository<User>, respositoryProduct: Repository<Product>);
-    addOrder(order: OrderDTO): Promise<OrderDto | string>;
+    addOrder(order: CreateOrderDto): Promise<OrderDto | string>;
     getOrder(id: string): Promise<OrderDto>;
 }

@@ -1,9 +1,9 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Product} from "src/Entities/Products/products.entity";
 import { Repository, ServerDescription } from "typeorm";
 import { Category } from "src/Entities/Categories/categories.entity";
-import { ProductsDto } from "./ProductsDto";
+import { ProductsDto } from "../DTO´S/ProductsDto";
 import { identity } from "rxjs";
 
 
@@ -48,7 +48,7 @@ async getNewProduct(product:ProductsDto[]) : Promise<Product|string> {
        
         
         } else {
-           return `el producto ya existe`
+            throw new HttpException(`el producto ya existe`, HttpStatus.BAD_REQUEST)
         }
     }
   }
@@ -68,7 +68,7 @@ async putProduct(id:string , product: Product):Promise<string> {
    
         return `producto con N° id ${id} fue modificado`
     }
-    return `id no encontrado`
+    throw new HttpException(`id no encontrado`, HttpStatus.NOT_FOUND) 
 }
 
 
@@ -81,7 +81,7 @@ async deleteProduct(id:string):Promise<string> {
 
         return ` el producto con id N° ${id} fue eliminado`
     }
-    return `id inexistente`
+    throw new HttpException(`id no encontrado`, HttpStatus.NOT_FOUND) 
 }
 
 async productId(id:string): Promise<Product|string> {
@@ -89,6 +89,6 @@ async productId(id:string): Promise<Product|string> {
    if(productId){
     return productId;
    }
-   return `id no encontrado`
+   throw new HttpException(`id no encontrado`, HttpStatus.NOT_FOUND) 
 }
 }

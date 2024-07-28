@@ -29,7 +29,7 @@ __decorate([
     (0, common_1.Post)("signin"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [LoginDto_1.UserDto]),
+    __metadata("design:paramtypes", [LoginDto_1.LoginUserDto]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "getLogin", null);
 exports.AuthController = AuthController = __decorate([

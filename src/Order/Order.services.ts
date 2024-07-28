@@ -1,5 +1,5 @@
-import { Injectable } from "@nestjs/common";
-import { OrderDto, OrderDTO } from "./OrderDTO";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { OrderDto, CreateOrderDto } from "../DTO´S/OrderDTO";
 import { InjectRepository } from "@nestjs/typeorm";
 import { In, Repository } from "typeorm";
 import { Order } from "src/Entities/Orders/Orders.entity";
@@ -17,7 +17,7 @@ export class OrderService{
                @InjectRepository(Product) private respositoryProduct: Repository<Product> ,
                ){}
 
-   async addOrder(order : OrderDTO) : Promise<OrderDto|string>{
+   async addOrder(order :CreateOrderDto) : Promise<OrderDto|string>{
 
      const {userid , products} = order;
 
@@ -26,7 +26,7 @@ export class OrderService{
      const userById = await this.repositoryUser.findOne({where:{id:userid}} );
      
      if(!userById){
-        return `usuario inexistente`
+      throw new HttpException(`usuario inexistente`, HttpStatus.NOT_FOUND);
      }
      
 
@@ -37,11 +37,14 @@ export class OrderService{
 
       const productUnavailable = await productsId.filter(producto =>producto.stock <=0);
       if(productUnavailable.length > 0){
-         return `el/los producto/s : ${productUnavailable.map (producto =>producto.id).join(",")} no se encuentra/n en stock`
+
+        throw new HttpException(`el/los producto/s : ${productUnavailable.map (producto =>producto.id).join(",")} no poseen stock`, HttpStatus.NOT_FOUND);
       }
 
       if(productsId.length !== productos.length){
-        return `uno o varios productos no encontrados`;
+
+        throw new HttpException( `uno o varios productos no encontrados`, HttpStatus.NOT_FOUND);
+    
       }
       
       for (let i=0 ; i<productsId.length ; i=i+1){

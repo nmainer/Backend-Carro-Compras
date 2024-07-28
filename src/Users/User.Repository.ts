@@ -1,6 +1,6 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import {  User2 , User3 } from "./interface.user";
-import { userDto } from "./UserDto";
+import { CreateUserDto} from "../DTO´S/UserDto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User as Us } from "src/Entities/Users/Users.entity";
 import { Repository } from "typeorm";
@@ -39,17 +39,17 @@ export class UsersRepository{
     orders:us.orders
     }
   }
-  return `usuario inexistente`
+ throw new HttpException(`usuario inexistente`, HttpStatus.NOT_FOUND);
   
 }
 
-async getNewUser(us:userDto): Promise <Partial<User2|string>>{
+async getNewUser(us:CreateUserDto): Promise <Partial<User2|string>>{
 
   const newUser = await this.repositoryUser.save(us)
   return `id generado: ${newUser.id}`;
 }
 
- async getPutUser(id:string, userdto: userDto) {
+ async getPutUser(id:string, userdto: CreateUserDto) {
   const userid = await this.repositoryUser.findOne({where:{id}})
   if (userid){
     const users = {...userid,...userdto};
@@ -58,7 +58,7 @@ async getNewUser(us:userDto): Promise <Partial<User2|string>>{
     return `ususario con id N°${users.id} fue modificado`
     
   }
-  return `id no encontrado`
+  throw new HttpException(`id no encontrado`, HttpStatus.NOT_FOUND);
 }
 
 async deleteUser(id:string) {
@@ -68,7 +68,7 @@ async deleteUser(id:string) {
    
    return `el registro ${valor} fue eliminado`
   }
-  return `id no encontrado`
+  throw new HttpException(`id no encontrado`, HttpStatus.NOT_FOUND) 
 }
 
 }

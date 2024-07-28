@@ -1,6 +1,6 @@
 import { ProductsRepository } from "./Products.repository";
 import { Product } from "src/Entities/Products/products.entity";
-import { ProductsDto } from "./ProductsDto";
+import { ProductsDto } from "../DTO´S/ProductsDto";
 export declare class ProductsService {
     private readonly productsRepository;
     constructor(productsRepository: ProductsRepository);

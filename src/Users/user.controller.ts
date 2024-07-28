@@ -1,6 +1,6 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, Param, ParseUUIDPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
 import { UserService } from "../Users/user.service";
-import { userDto } from "./UserDto";
+import { CreateUserDto } from "../DTO´S/UserDto";
 import { AuthGuard } from "src/Auth/Auth.guard";
 
 
@@ -20,14 +20,14 @@ export class UserController{
 
     @HttpCode(201)
     @Post()
-    getPostUsers(@Body() us: userDto){
+    getPostUsers(@Body() us: CreateUserDto){
       return this.userService.getNewUser(us)
     }
     
     @HttpCode(200)
     @Put(":id")
     @UseGuards(AuthGuard)
-    getPutUsers(@Param("id") id : string , @Body() userdto: userDto){
+    getPutUsers(@Param("id" , ParseUUIDPipe) id : string , @Body() userdto: CreateUserDto){
 
      return this.userService.getPutUsers(id , userdto)
     }

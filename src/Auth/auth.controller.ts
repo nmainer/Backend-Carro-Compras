@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post } from "@nestjs/common";
 import { AuthService } from "./auth.service";
-import { UserDto } from "./LoginDto";
+import { LoginUserDto } from "./LoginDto";
 
 
 
@@ -9,7 +9,7 @@ export class AuthController {
     constructor( private readonly authService : AuthService){}
 
     @Post("signin")
-    getLogin(@Body() Login : UserDto){
+    getLogin(@Body() Login : LoginUserDto){
         return this.authService.getLogin(Login);
     }   
 };

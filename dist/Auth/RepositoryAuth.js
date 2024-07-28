@@ -24,15 +24,15 @@ let RespositoryAuth = class RespositoryAuth {
     async getLogin(Login) {
         const user = await this.repositorioUser.findOne({ where: { email: Login.email } });
         if (!user) {
-            return "usuario inexistente";
+            throw new common_1.HttpException("usuario inexistente", common_1.HttpStatus.NOT_FOUND);
         }
         if (user && Login.password === user.password) {
             return `Ingreso exitoso`;
         }
         if (!Login.email && !Login.password) {
-            return "faltan datos";
+            throw new common_1.HttpException("faltan datos", common_1.HttpStatus.BAD_REQUEST);
         }
-        return `Usuario y/o contraseña incorrecta/s`;
+        throw new common_1.HttpException(`Usuario y/o contraseña incorrecta/s`, common_1.HttpStatus.UNAUTHORIZED);
     }
 };
 exports.RespositoryAuth = RespositoryAuth;

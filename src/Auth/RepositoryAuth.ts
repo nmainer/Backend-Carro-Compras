@@ -1,6 +1,6 @@
 import { UsersRepository } from "src/Users/User.Repository";
-import { UserDto } from "./LoginDto";
-import { Injectable } from "@nestjs/common";
+import { LoginUserDto } from "./LoginDto";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "src/Entities/Users/Users.entity";
 import { Repository } from "typeorm";
@@ -10,19 +10,21 @@ import { Repository } from "typeorm";
 export class RespositoryAuth {
 constructor( @InjectRepository(User)  private readonly repositorioUser:Repository<User>){}
 
-async getLogin(Login : UserDto) : Promise<string> {
+async getLogin(Login : LoginUserDto) : Promise<string> {
 
 const user = await this.repositorioUser.findOne({where:{email: Login.email}});
 if(!user){
-    return "usuario inexistente";
+    throw new HttpException("usuario inexistente" , HttpStatus.NOT_FOUND);
 }
 if(user && Login.password === user.password){
 return `Ingreso exitoso`;
 }
 if(!Login.email && !Login.password){
-    return "faltan datos";
+    throw new HttpException("faltan datos" , HttpStatus.BAD_REQUEST)
 }
-return `Usuario y/o contraseña incorrecta/s`
+
+throw new HttpException(`Usuario y/o contraseña incorrecta/s`, HttpStatus.UNAUTHORIZED);
+
 }
 }
        

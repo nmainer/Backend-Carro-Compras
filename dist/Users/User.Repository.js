@@ -44,7 +44,7 @@ let UsersRepository = class UsersRepository {
                 orders: us.orders
             };
         }
-        return `usuario inexistente`;
+        throw new common_1.HttpException(`usuario inexistente`, common_1.HttpStatus.NOT_FOUND);
     }
     async getNewUser(us) {
         const newUser = await this.repositoryUser.save(us);
@@ -57,7 +57,7 @@ let UsersRepository = class UsersRepository {
             await this.repositoryUser.save(users);
             return `ususario con id N°${users.id} fue modificado`;
         }
-        return `id no encontrado`;
+        throw new common_1.HttpException(`id no encontrado`, common_1.HttpStatus.NOT_FOUND);
     }
     async deleteUser(id) {
         const user = await this.repositoryUser.findOne({ where: { id } });
@@ -65,7 +65,7 @@ let UsersRepository = class UsersRepository {
             const valor = await this.repositoryUser.remove(user);
             return `el registro ${valor} fue eliminado`;
         }
-        return `id no encontrado`;
+        throw new common_1.HttpException(`id no encontrado`, common_1.HttpStatus.NOT_FOUND);
     }
 };
 exports.UsersRepository = UsersRepository;

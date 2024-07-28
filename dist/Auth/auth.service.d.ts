@@ -1,7 +1,7 @@
 import { RespositoryAuth } from "./RepositoryAuth";
-import { User3 } from "src/Users/interface.user";
+import { LoginUserDto } from "./LoginDto";
 export declare class AuthService {
     private readonly repositoryAuth;
     constructor(repositoryAuth: RespositoryAuth);
-    getLogin(Login: User3): Promise<string>;
+    getLogin(Login: LoginUserDto): Promise<string>;
 }

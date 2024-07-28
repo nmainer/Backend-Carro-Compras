@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsArray, IsDate, IsNumber, IsObject, IsString, isUUID, IsUUID,  ValidateNested } from "class-validator";
+import { ArrayMinSize, IsArray, IsDate, IsNotEmpty, IsNumber, IsObject, IsString, isUUID, IsUUID,  ValidateNested } from "class-validator";
 
 
 class ArrayProducts {
@@ -7,11 +7,13 @@ class ArrayProducts {
     id: string
 }
 
-export class OrderDTO{
+export class CreateOrderDto{
     @IsUUID()
+    @IsNotEmpty({message: "la propiedad userid no debe estar vacia"})
     userid:string
 
     @IsArray()
+    @ArrayMinSize(1,{message: "la propiedad productos debe contener al menos 1 elemento"})
     @ValidateNested({each:true})
     @Type(()=>ArrayProducts)
     products: ArrayProducts[]

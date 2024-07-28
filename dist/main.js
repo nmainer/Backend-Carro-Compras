@@ -7,7 +7,9 @@ const common_1 = require("@nestjs/common");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.use(logger_middleware_1.LoggerUsers);
-    app.useGlobalPipes(new common_1.ValidationPipe());
+    app.useGlobalPipes(new common_1.ValidationPipe({
+        whitelist: true
+    }));
     await app.listen(3000);
 }
 bootstrap();

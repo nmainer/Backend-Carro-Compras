@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { RespositoryAuth } from "./RepositoryAuth";
-import { User3 } from "src/Users/interface.user";
+import { LoginUserDto } from "./LoginDto";
 
 
 
@@ -8,7 +8,7 @@ import { User3 } from "src/Users/interface.user";
 export class AuthService {
     constructor (private readonly repositoryAuth : RespositoryAuth){}
 
-    getLogin(Login : User3) {
+    getLogin(Login : LoginUserDto) {
 
         return this.repositoryAuth.getLogin(Login);
     }

@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const common_1 = require("@nestjs/common");
 const user_service_1 = require("../Users/user.service");
-const UserDto_1 = require("./UserDto");
+const UserDto_1 = require("../DTO\u00B4S/UserDto");
 const Auth_guard_1 = require("../Auth/Auth.guard");
 let UserController = class UserController {
     constructor(userService) {
@@ -53,17 +53,17 @@ __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [UserDto_1.userDto]),
+    __metadata("design:paramtypes", [UserDto_1.CreateUserDto]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "getPostUsers", null);
 __decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.Put)(":id"),
     (0, common_1.UseGuards)(Auth_guard_1.AuthGuard),
-    __param(0, (0, common_1.Param)("id")),
+    __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, UserDto_1.userDto]),
+    __metadata("design:paramtypes", [String, UserDto_1.CreateUserDto]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "getPutUsers", null);
 __decorate([
