@@ -8,5 +8,5 @@ export declare class ProductsController {
     getPost(product: ProductsDto[]): Promise<string | Product>;
     getPutproducts(id: string, product: Product): Promise<string>;
     deleteProducts(id: string): Promise<string>;
-    getProductbyId(id: string): Promise<string | Product>;
+    getProductbyId(id: string): Promise<Product>;
 }

@@ -10,5 +10,5 @@ export declare class ProductsRepository {
     getNewProduct(product: ProductsDto[]): Promise<Product | string>;
     putProduct(id: string, product: Product): Promise<string>;
     deleteProduct(id: string): Promise<string>;
-    productId(id: string): Promise<Product | string>;
+    productId(id: string): Promise<Product>;
 }

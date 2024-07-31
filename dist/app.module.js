@@ -16,12 +16,13 @@ const config_1 = require("@nestjs/config");
 const typeorm_2 = require("./Config/typeorm");
 const categorie_module_1 = require("./Categories/categorie.module");
 const Order_module_1 = require("./Order/Order.module");
+const module_file_1 = require("./Files/module.file");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [user_module_1.UserModule, Order_module_1.ModuleOrder, products_module_1.ProductsModule, auth_module_1.AuthModule, categorie_module_1.CategorieModule, typeorm_1.TypeOrmModule.forRootAsync({
+        imports: [user_module_1.UserModule, Order_module_1.ModuleOrder, products_module_1.ProductsModule, auth_module_1.AuthModule, categorie_module_1.CategorieModule, module_file_1.ModuleFile, typeorm_1.TypeOrmModule.forRootAsync({
                 inject: [config_1.ConfigService],
                 useFactory: (configService) => configService.get("typeorm")
             }),

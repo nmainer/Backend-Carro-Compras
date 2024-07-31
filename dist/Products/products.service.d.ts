@@ -8,5 +8,5 @@ export declare class ProductsService {
     getNewProduct(product: ProductsDto[]): Promise<string | Product>;
     putProduct(id: string, product: Product): Promise<string>;
     deleteProduct(id: string): Promise<string>;
-    productId(id: string): Promise<string | Product>;
+    productId(id: string): Promise<Product>;
 }

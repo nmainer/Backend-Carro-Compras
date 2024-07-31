@@ -1,10 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Product} from "src/Entities/Products/products.entity";
-import { Repository, ServerDescription } from "typeorm";
+import { Repository} from "typeorm";
 import { Category } from "src/Entities/Categories/categories.entity";
 import { ProductsDto } from "../DTO´S/ProductsDto";
-import { identity } from "rxjs";
+
 
 
 @Injectable()
@@ -61,6 +61,8 @@ async getNewProduct(product:ProductsDto[]) : Promise<Product|string> {
 async putProduct(id:string , product: Product):Promise<string> {
 
     const productnew = await this.repositoryProduct.findOneBy({id});
+
+
     if(productnew){
         const actualizer = {...productnew ,...product}
 
@@ -84,8 +86,8 @@ async deleteProduct(id:string):Promise<string> {
     throw new HttpException(`id no encontrado`, HttpStatus.NOT_FOUND) 
 }
 
-async productId(id:string): Promise<Product|string> {
-   const productId =  this.repositoryProduct.findOneBy({id});
+async productId(id:string): Promise<Product> {
+   const productId =  this.repositoryProduct.findOne({where:{id}});
    if(productId){
     return productId;
    }

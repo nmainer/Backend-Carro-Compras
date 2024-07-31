@@ -71,7 +71,7 @@ let ProductsRepository = class ProductsRepository {
         throw new common_1.HttpException(`id no encontrado`, common_1.HttpStatus.NOT_FOUND);
     }
     async productId(id) {
-        const productId = this.repositoryProduct.findOneBy({ id });
+        const productId = this.repositoryProduct.findOne({ where: { id } });
         if (productId) {
             return productId;
         }
