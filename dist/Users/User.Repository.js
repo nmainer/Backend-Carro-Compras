@@ -50,6 +50,10 @@ let UsersRepository = class UsersRepository {
         const newUser = await this.repositoryUser.save(us);
         return `id generado: ${newUser.id}`;
     }
+    async getUserByEmail(email) {
+        const userByEmail = await this.repositoryUser.findOne({ where: { email } });
+        return userByEmail;
+    }
     async getPutUser(id, userdto) {
         const userid = await this.repositoryUser.findOne({ where: { id } });
         if (userid) {

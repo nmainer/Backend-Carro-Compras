@@ -8,37 +8,58 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RespositoryAuth = void 0;
+const User_Repository_1 = require("../Users/User.Repository");
 const common_1 = require("@nestjs/common");
-const typeorm_1 = require("@nestjs/typeorm");
-const Users_entity_1 = require("../Entities/Users/Users.entity");
-const typeorm_2 = require("typeorm");
+const bcrypt = require("bcrypt");
+const jwt_1 = require("@nestjs/jwt");
 let RespositoryAuth = class RespositoryAuth {
-    constructor(repositorioUser) {
-        this.repositorioUser = repositorioUser;
+    constructor(userService, jwtService) {
+        this.userService = userService;
+        this.jwtService = jwtService;
     }
     async getLogin(Login) {
-        const user = await this.repositorioUser.findOne({ where: { email: Login.email } });
+        const user = await this.userService.getUserByEmail(Login.email);
         if (!user) {
-            throw new common_1.HttpException("usuario inexistente", common_1.HttpStatus.NOT_FOUND);
+            throw new common_1.BadRequestException("Usuario no registrado");
         }
-        if (user && Login.password === user.password) {
-            return `Ingreso exitoso`;
+        const hashPassword = await bcrypt.compare(Login.password, user.password);
+        if (!hashPassword) {
+            throw new common_1.BadRequestException(`Usuario y/o contraseña incorrecta/s`);
+            ;
         }
         if (!Login.email && !Login.password) {
-            throw new common_1.HttpException("faltan datos", common_1.HttpStatus.BAD_REQUEST);
+            throw new common_1.BadRequestException("faltan datos");
         }
-        throw new common_1.HttpException(`Usuario y/o contraseña incorrecta/s`, common_1.HttpStatus.UNAUTHORIZED);
+        const userPayLoad = {
+            subscribe: user.id,
+            id: user.id,
+            email: user.email
+        };
+        const token = this.jwtService.sign(userPayLoad);
+        return { success: "Registro exitoso", token };
+    }
+    async getRegister(Register) {
+        if (Register.password !== Register.confirmPassword) {
+            return "Las contraseñas deben coincidir";
+        }
+        const user = await this.userService.getUserByEmail(Register.email);
+        if (user) {
+            throw new common_1.HttpException("el email actual ya se encuentra registrado", common_1.HttpStatus.BAD_REQUEST);
+        }
+        const passwordHashed = await bcrypt.hash(Register.password, 10);
+        if (!passwordHashed) {
+            throw new common_1.BadRequestException("password could not hashed");
+        }
+        const userNew = { ...Register, password: passwordHashed };
+        return this.userService.getNewUser(userNew);
     }
 };
 exports.RespositoryAuth = RespositoryAuth;
 exports.RespositoryAuth = RespositoryAuth = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(Users_entity_1.User)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [User_Repository_1.UsersRepository,
+        jwt_1.JwtService])
 ], RespositoryAuth);
 //# sourceMappingURL=RepositoryAuth.js.map

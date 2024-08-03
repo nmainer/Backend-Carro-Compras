@@ -16,7 +16,10 @@ let AuthService = class AuthService {
     constructor(repositoryAuth) {
         this.repositoryAuth = repositoryAuth;
     }
-    getLogin(Login) {
+    SingUp(Register) {
+        return this.repositoryAuth.getRegister(Register);
+    }
+    SingIn(Login) {
         return this.repositoryAuth.getLogin(Login);
     }
 };

@@ -1,8 +1,14 @@
-import { LoginUserDto } from "./LoginDto";
-import { User } from "src/Entities/Users/Users.entity";
-import { Repository } from "typeorm";
+import { UsersRepository } from "src/Users/User.Repository";
+import { CredentialDto } from "../DTO´S/LoginDto";
+import { CreateUserDto } from "src/DTO´S/UserDto";
+import { JwtService } from "@nestjs/jwt";
 export declare class RespositoryAuth {
-    private readonly repositorioUser;
-    constructor(repositorioUser: Repository<User>);
-    getLogin(Login: LoginUserDto): Promise<string>;
+    private readonly userService;
+    private readonly jwtService;
+    constructor(userService: UsersRepository, jwtService: JwtService);
+    getLogin(Login: CredentialDto): Promise<{
+        success: string;
+        token: string;
+    }>;
+    getRegister(Register: CreateUserDto): Promise<string>;
 }

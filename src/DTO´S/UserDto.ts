@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, Length, Matches } from "class-validator";
+import { IsEmail, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString, Length, Matches } from "class-validator";
 
 export class CreateUserDto {
 
@@ -6,7 +6,7 @@ export class CreateUserDto {
 @IsNotEmpty({message: "la opcion email no debe estar vacia"})
 email:string 
 
-@IsEmail()
+@IsString()
 @IsNotEmpty({message: "La opcion name no debe estar vacia"})
 @Length(3,80 , {message: "la propieadad name debe contener un minimo de 3 hasta 80 caracteres"})
 name:string
@@ -19,11 +19,15 @@ name:string
 password: string
 
 @IsString()
+confirmPassword: string
+
+@IsString()
 @Length(3,80, {message: "address debe contener un minimo de 3 hasta 80 caracteres"})
 address: string
 
 @IsNumber()
 @IsNotEmpty({message: "la propiedad phone no debe estar vacia"})
+@IsInt({message:"El num debe ser entero"})
 phone: number
 
 @IsString()

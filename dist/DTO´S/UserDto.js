@@ -20,7 +20,7 @@ __decorate([
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "email", void 0);
 __decorate([
-    (0, class_validator_1.IsEmail)(),
+    (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)({ message: "La opcion name no debe estar vacia" }),
     (0, class_validator_1.Length)(3, 80, { message: "la propieadad name debe contener un minimo de 3 hasta 80 caracteres" }),
     __metadata("design:type", String)
@@ -35,12 +35,17 @@ __decorate([
 ], CreateUserDto.prototype, "password", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateUserDto.prototype, "confirmPassword", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
     (0, class_validator_1.Length)(3, 80, { message: "address debe contener un minimo de 3 hasta 80 caracteres" }),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "address", void 0);
 __decorate([
     (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.IsNotEmpty)({ message: "la propiedad phone no debe estar vacia" }),
+    (0, class_validator_1.IsInt)({ message: "El num debe ser entero" }),
     __metadata("design:type", Number)
 ], CreateUserDto.prototype, "phone", void 0);
 __decorate([

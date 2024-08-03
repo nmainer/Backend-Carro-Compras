@@ -1,7 +1,8 @@
-import { Controller, Param, Put, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Controller, Param, Post, Put, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ServiceFile } from "./service.file";
 import { MinSizeAndFormat } from "src/Pipes/minSize.pipe";
+import { AuthGuard } from "src/Guard/Auth.guard";
 
 
 
@@ -11,7 +12,8 @@ import { MinSizeAndFormat } from "src/Pipes/minSize.pipe";
 export class ControllerFile {
     constructor(private readonly serviceFile: ServiceFile ){}
 
-    @Put(":id")
+    @Post(":id")
+    @UseGuards(AuthGuard)
     @UseInterceptors(FileInterceptor("file"))
     async addFile(@Param("id") id: string , @UploadedFile(new MinSizeAndFormat()) file: Express.Multer.File){
       console.log(file)

@@ -1,9 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import {  User2 , User3 } from "./interface.user";
+import { User2 } from "./interfaces.user";
 import { CreateUserDto} from "../DTO´S/UserDto";
 import { InjectRepository } from "@nestjs/typeorm";
-import { User as Us } from "src/Entities/Users/Users.entity";
+import { User } from "src/Entities/Users/Users.entity";
 import { Repository } from "typeorm";
+import { CredentialDto } from "src/DTO´S/LoginDto";
 
 
 
@@ -11,7 +12,7 @@ import { Repository } from "typeorm";
 @Injectable()
 export class UsersRepository{
    
-  constructor(@InjectRepository(Us) private repositoryUser:Repository<Us> ){}
+  constructor(@InjectRepository(User) private repositoryUser:Repository<User> ){}
  
 
   async getRepository(page :number,limit:number) : Promise<User2[]>{
@@ -43,10 +44,16 @@ export class UsersRepository{
   
 }
 
-async getNewUser(us:CreateUserDto): Promise <Partial<User2|string>>{
+async getNewUser(us:CreateUserDto): Promise <string>{
 
   const newUser = await this.repositoryUser.save(us)
   return `id generado: ${newUser.id}`;
+}
+
+
+async getUserByEmail(email:string) {
+  const userByEmail = await this.repositoryUser.findOne({where:{email}})
+  return userByEmail ; 
 }
 
  async getPutUser(id:string, userdto: CreateUserDto) {

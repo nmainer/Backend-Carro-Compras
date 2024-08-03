@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, HttpCode, Param, ParseUUIDPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
 import { ProductsService } from "./products.service";
-import { AuthGuard } from "src/Auth/Auth.guard";
+import { AuthGuard } from "src/Guard/Auth.guard";
 import { Product } from "src/Entities/Products/products.entity";
 import { ProductsDto } from "../DTO´S/ProductsDto";
 

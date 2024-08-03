@@ -1,7 +1,8 @@
 import { Body, Controller, Delete, Get, HttpCode, Param, ParseUUIDPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
 import { UserService } from "../Users/user.service";
 import { CreateUserDto } from "../DTO´S/UserDto";
-import { AuthGuard } from "src/Auth/Auth.guard";
+import { AuthGuard } from "src/Guard/Auth.guard";
+import { CredentialDto } from "src/DTO´S/LoginDto";
 
 
 
@@ -20,6 +21,12 @@ export class UserController{
 
     @HttpCode(201)
     @Post()
+    getUserByEmail(@Body() email: string){
+      return this.userService.getByEmail(email)
+    }
+
+    @HttpCode(201)
+    @Post("newUser")
     getPostUsers(@Body() us: CreateUserDto){
       return this.userService.getNewUser(us)
     }

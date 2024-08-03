@@ -1,7 +1,12 @@
 import { RespositoryAuth } from "./RepositoryAuth";
-import { LoginUserDto } from "./LoginDto";
+import { CredentialDto } from "../DTO´S/LoginDto";
+import { CreateUserDto } from "src/DTO´S/UserDto";
 export declare class AuthService {
     private readonly repositoryAuth;
     constructor(repositoryAuth: RespositoryAuth);
-    getLogin(Login: LoginUserDto): Promise<string>;
+    SingUp(Register: CreateUserDto): Promise<string>;
+    SingIn(Login: CredentialDto): Promise<{
+        success: string;
+        token: string;
+    }>;
 }

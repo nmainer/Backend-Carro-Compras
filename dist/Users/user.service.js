@@ -16,19 +16,22 @@ let UserService = class UserService {
     constructor(userRepository) {
         this.userRepository = userRepository;
     }
-    getUsers(page, limit) {
+    async getUsers(page, limit) {
         return this.userRepository.getRepository(page, limit);
     }
-    getUserbyId(id) {
+    async getUserbyId(id) {
         return this.userRepository.getUserId(id);
     }
-    getNewUser(us) {
+    async getNewUser(us) {
         return this.userRepository.getNewUser(us);
     }
-    getPutUsers(id, user) {
+    async getByEmail(email) {
+        return this.userRepository.getUserByEmail(email);
+    }
+    async getPutUsers(id, user) {
         return this.userRepository.getPutUser(id, user);
     }
-    deleteUser(id) {
+    async deleteUser(id) {
         return this.userRepository.deleteUser(id);
     }
 };

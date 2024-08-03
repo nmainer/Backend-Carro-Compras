@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const service_file_1 = require("./service.file");
 const minSize_pipe_1 = require("../Pipes/minSize.pipe");
+const Auth_guard_1 = require("../Guard/Auth.guard");
 let ControllerFile = class ControllerFile {
     constructor(serviceFile) {
         this.serviceFile = serviceFile;
@@ -28,7 +29,8 @@ let ControllerFile = class ControllerFile {
 };
 exports.ControllerFile = ControllerFile;
 __decorate([
-    (0, common_1.Put)(":id"),
+    (0, common_1.Post)(":id"),
+    (0, common_1.UseGuards)(Auth_guard_1.AuthGuard),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)("file")),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.UploadedFile)(new minSize_pipe_1.MinSizeAndFormat())),

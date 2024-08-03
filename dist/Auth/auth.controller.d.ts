@@ -1,7 +1,12 @@
 import { AuthService } from "./auth.service";
-import { LoginUserDto } from "./LoginDto";
+import { CredentialDto } from "../DTO´S/LoginDto";
+import { CreateUserDto } from "src/DTO´S/UserDto";
 export declare class AuthController {
-    private readonly authService;
-    constructor(authService: AuthService);
-    getLogin(Login: LoginUserDto): Promise<string>;
+    private readonly authservice;
+    constructor(authservice: AuthService);
+    singIn(Login: CredentialDto): Promise<{
+        success: string;
+        token: string;
+    }>;
+    singUp(Register: CreateUserDto): Promise<string>;
 }
