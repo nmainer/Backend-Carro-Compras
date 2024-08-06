@@ -8,6 +8,7 @@ import { JwtService } from "@nestjs/jwt";
 
 
 
+
 @Injectable()
 export class RespositoryAuth {
 constructor( private readonly  userService: UsersRepository ,
@@ -34,7 +35,8 @@ if(!Login.email && !Login.password){
 const userPayLoad = {
     subscribe: user.id,
     id: user.id,
-    email:user.email
+    email:user.email,
+    admin:user.admin  
 }
 
 const token = this.jwtService.sign(userPayLoad);

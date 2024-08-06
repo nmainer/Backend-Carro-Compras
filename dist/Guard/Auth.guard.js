@@ -18,16 +18,19 @@ let AuthGuard = class AuthGuard {
     }
     async canActivate(context) {
         const request = context.switchToHttp().getRequest();
-        const token = request.headers["authorization"].split(" ")[1];
-        if (!token) {
-            throw new common_1.UnauthorizedException("Bearer token not found");
+        const authorizationHeader = request.headers["authorization"];
+        if (!authorizationHeader) {
+            throw new common_1.UnauthorizedException('Authorization header missing');
+        }
+        const [scheme, token] = authorizationHeader.split(" ");
+        if (scheme !== "Bearer" || !token) {
+            throw new common_1.UnauthorizedException("Bearer or token not found");
         }
         try {
             const secret = process.env.JWT_SECRET;
             const payLoad = await this.jwtServices.verifyAsync(token, { secret: secret });
             payLoad.iat = new Date(payLoad.iat * 1000);
             payLoad.exp = new Date(payLoad.exp * 1000);
-            payLoad.roles = ["ADMIN"];
             request.user = payLoad;
             return true;
         }

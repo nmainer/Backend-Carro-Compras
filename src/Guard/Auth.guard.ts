@@ -12,17 +12,22 @@ export class AuthGuard implements CanActivate {
    async canActivate (context: ExecutionContext):  Promise<boolean>{
 
       const request = context.switchToHttp().getRequest();
-      const token = request.headers["authorization"].split(" ")[1]
+      const authorizationHeader = request.headers["authorization"]
 
-      if(!token){
-        throw new UnauthorizedException("Bearer token not found");
+      if(!authorizationHeader){
+        throw new UnauthorizedException('Authorization header missing');
+      }
+
+      const [scheme,token] = authorizationHeader.split(" ");
+      
+      if(scheme !== "Bearer" || !token) {
+        throw new UnauthorizedException("Bearer or token not found");
       }
       try{
       const secret = process.env.JWT_SECRET
       const payLoad= await  this.jwtServices.verifyAsync(token , {secret:secret})
       payLoad.iat= new Date(payLoad.iat *1000)
       payLoad.exp = new Date(payLoad.exp *1000)
-      payLoad.roles = ["ADMIN"];
       request.user = payLoad;
       return true;
 

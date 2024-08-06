@@ -1,8 +1,14 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, ParseUUIDPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, Param, ParseUUIDPipe, Post, Put, Query, Req, UseGuards } from "@nestjs/common";
 import { UserService } from "../Users/user.service";
 import { CreateUserDto } from "../DTO´S/UserDto";
 import { AuthGuard } from "src/Guard/Auth.guard";
 import { CredentialDto } from "src/DTO´S/LoginDto";
+import { Request } from "express";
+import { RolesGuard } from "src/Guard/Roles.guard";
+import { Roles } from "src/Roles/Roles.decorator";
+import { Rol } from "src/Enum/Roles.enum";
+
+
 
 
 
@@ -14,10 +20,16 @@ export class UserController{
     
     @HttpCode(200)
     @Get()
-    @UseGuards(AuthGuard)
+    @Roles(Rol.admin)
+    @UseGuards(AuthGuard , RolesGuard)
     getUsers(@Query("page") page : number = 1 , @Query("limit") limit : number = 5 ) {
     return this.userService.getUsers(page,limit)
     }
+
+    @Get("auth/user")
+      userByAuth (@Req() req:Request){
+     return JSON.stringify(req.oidc.user)
+      }
 
     @HttpCode(201)
     @Post()

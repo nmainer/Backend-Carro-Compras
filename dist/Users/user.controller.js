@@ -17,12 +17,18 @@ const common_1 = require("@nestjs/common");
 const user_service_1 = require("../Users/user.service");
 const UserDto_1 = require("../DTO\u00B4S/UserDto");
 const Auth_guard_1 = require("../Guard/Auth.guard");
+const Roles_guard_1 = require("../Guard/Roles.guard");
+const Roles_decorator_1 = require("../Roles/Roles.decorator");
+const Roles_enum_1 = require("../Enum/Roles.enum");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
     }
     getUsers(page = 1, limit = 5) {
         return this.userService.getUsers(page, limit);
+    }
+    userByAuth(req) {
+        return JSON.stringify(req.oidc.user);
     }
     getUserByEmail(email) {
         return this.userService.getByEmail(email);
@@ -44,13 +50,21 @@ exports.UserController = UserController;
 __decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(),
-    (0, common_1.UseGuards)(Auth_guard_1.AuthGuard),
+    (0, Roles_decorator_1.Roles)(Roles_enum_1.Rol.admin),
+    (0, common_1.UseGuards)(Auth_guard_1.AuthGuard, Roles_guard_1.RolesGuard),
     __param(0, (0, common_1.Query)("page")),
     __param(1, (0, common_1.Query)("limit")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, Number]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "getUsers", null);
+__decorate([
+    (0, common_1.Get)("auth/user"),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "userByAuth", null);
 __decorate([
     (0, common_1.HttpCode)(201),
     (0, common_1.Post)(),

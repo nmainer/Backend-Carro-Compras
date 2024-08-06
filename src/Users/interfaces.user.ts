@@ -1,5 +1,6 @@
 
 
+
 interface Order{
     id:string
     date:Date
@@ -11,6 +12,7 @@ export interface User2 {
   name: string
   address: string
   phone: number
+  admin: boolean
   country: string 
   city: string
   orders: Order[]

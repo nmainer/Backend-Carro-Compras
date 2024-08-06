@@ -2,6 +2,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import {v4 as uuid} from "uuid";
 import { Order } from "../Orders/Orders.entity";
 
+
 @Entity({name: "users"})
 export class User {
 
@@ -28,6 +29,9 @@ export class User {
 
     @Column({ type: 'varchar', length: 50 })
     city: string
+
+    @Column({default: false})
+    admin: boolean
 
     @OneToMany(()=>Order,order => order.user)
     orders : Order[]

@@ -17,6 +17,9 @@ const common_1 = require("@nestjs/common");
 const products_service_1 = require("./products.service");
 const Auth_guard_1 = require("../Guard/Auth.guard");
 const products_entity_1 = require("../Entities/Products/products.entity");
+const Roles_guard_1 = require("../Guard/Roles.guard");
+const Roles_decorator_1 = require("../Roles/Roles.decorator");
+const Roles_enum_1 = require("../Enum/Roles.enum");
 let ProductsController = class ProductsController {
     constructor(productsService) {
         this.productsService = productsService;
@@ -62,7 +65,8 @@ __decorate([
 __decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.Put)(":id"),
-    (0, common_1.UseGuards)(Auth_guard_1.AuthGuard),
+    (0, Roles_decorator_1.Roles)(Roles_enum_1.Rol.admin),
+    (0, common_1.UseGuards)(Auth_guard_1.AuthGuard, Roles_guard_1.RolesGuard),
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),

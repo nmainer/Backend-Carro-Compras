@@ -24,7 +24,7 @@ let UsersRepository = class UsersRepository {
     async getRepository(page, limit) {
         const users = await this.repositoryUser.find({ relations: ["orders"] });
         const valorMap = users.map(us => ({ id: us.id, email: us.email, name: us.name, address: us.address, phone: us.phone,
-            country: us.country, city: us.city, orders: us.orders
+            admin: us.admin, country: us.country, city: us.city, orders: us.orders
         }));
         const skip = (page - 1) * limit;
         const userPage = valorMap.slice(skip, skip + limit);

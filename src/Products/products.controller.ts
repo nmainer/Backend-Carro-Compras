@@ -3,6 +3,11 @@ import { ProductsService } from "./products.service";
 import { AuthGuard } from "src/Guard/Auth.guard";
 import { Product } from "src/Entities/Products/products.entity";
 import { ProductsDto } from "../DTO´S/ProductsDto";
+import { RolesGuard } from "src/Guard/Roles.guard";
+import { Roles } from "src/Roles/Roles.decorator";
+import { Rol } from "src/Enum/Roles.enum";
+
+
 
 
 
@@ -25,7 +30,8 @@ export class ProductsController{
     
     @HttpCode(200)
     @Put(":id")
-    @UseGuards(AuthGuard)
+    @Roles(Rol.admin)
+    @UseGuards(AuthGuard ,RolesGuard)
     getPutproducts(@Param("id" ,ParseUUIDPipe) id : string , @Body() product: Product){
         const productId = id;
         return this.productsService.putProduct(productId , product);

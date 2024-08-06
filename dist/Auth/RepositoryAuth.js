@@ -35,7 +35,8 @@ let RespositoryAuth = class RespositoryAuth {
         const userPayLoad = {
             subscribe: user.id,
             id: user.id,
-            email: user.email
+            email: user.email,
+            admin: user.admin
         };
         const token = this.jwtService.sign(userPayLoad);
         return { success: "Registro exitoso", token };

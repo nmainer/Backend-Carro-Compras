@@ -14,7 +14,11 @@ const User_Repository_1 = require("./User.Repository");
 const Auth_guard_1 = require("../Guard/Auth.guard");
 const typeorm_1 = require("@nestjs/typeorm");
 const Users_entity_1 = require("../Entities/Users/Users.entity");
+const express_openid_connect_1 = require("express-openid-connect");
 let UserModule = class UserModule {
+    configure(consumer) {
+        consumer.apply((0, express_openid_connect_1.requiresAuth)()).forRoutes("auth/user");
+    }
 };
 exports.UserModule = UserModule;
 exports.UserModule = UserModule = __decorate([
