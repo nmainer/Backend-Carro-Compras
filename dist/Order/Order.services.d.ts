@@ -1,8 +1,8 @@
 import { OrderDto, CreateOrderDto } from "../DTO´S/OrderDTO";
 import { Repository } from "typeorm";
-import { Order } from "src/Entities/Orders/Orders.entity";
-import { User } from "src/Entities/Users/Users.entity";
-import { Product } from "src/Entities/Products/products.entity";
+import { Order } from "../Entities/Orders/Orders.entity";
+import { User } from "../Entities/Users/Users.entity";
+import { Product } from "../Entities/Products/products.entity";
 export declare class OrderService {
     private repositoryOrder;
     private repositoryUser;

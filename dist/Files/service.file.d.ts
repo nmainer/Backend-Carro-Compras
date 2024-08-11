@@ -1,5 +1,5 @@
-import { CloudinaryServices } from "src/Cloudinary/cloudinary.services";
-import { ProductsRepository } from "src/Products/Products.repository";
+import { CloudinaryServices } from "../Cloudinary/cloudinary.services";
+import { ProductsRepository } from "../Products/Products.repository";
 export declare class ServiceFile {
     private readonly serviceProduct;
     private readonly serviceCloudinary;

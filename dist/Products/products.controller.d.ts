@@ -1,5 +1,5 @@
 import { ProductsService } from "./products.service";
-import { Product } from "src/Entities/Products/products.entity";
+import { Product } from "../Entities/Products/products.entity";
 import { ProductsDto } from "../DTO´S/ProductsDto";
 export declare class ProductsController {
     private readonly productsService;

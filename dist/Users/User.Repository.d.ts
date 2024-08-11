@@ -1,6 +1,6 @@
 import { User2 } from "./interfaces.user";
 import { CreateUserDto } from "../DTO´S/UserDto";
-import { User } from "src/Entities/Users/Users.entity";
+import { User } from "../Entities/Users/Users.entity";
 import { Repository } from "typeorm";
 export declare class UsersRepository {
     private repositoryUser;

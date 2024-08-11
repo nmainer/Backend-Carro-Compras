@@ -2,7 +2,7 @@ import { BadRequestException, CanActivate, ExecutionContext, ForbiddenException,
 import { Reflector } from "@nestjs/core";
 import { Http2ServerRequest } from "http2";
 import { Observable } from "rxjs";
-import { Rol } from "src/Enum/Roles.enum";
+import { Rol } from "../Enum/Roles.enum";
 
 @Injectable()
 export class RolesGuard implements CanActivate{

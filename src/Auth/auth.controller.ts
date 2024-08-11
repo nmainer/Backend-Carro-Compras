@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import {CredentialDto } from "../DTO´S/LoginDto";
-import { CreateUserDto } from "src/DTO´S/UserDto";
+import { CreateUserDto } from "../DTO´S/UserDto";
 import { RespositoryAuth } from "./RepositoryAuth";
 
 

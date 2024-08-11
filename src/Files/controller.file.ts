@@ -1,8 +1,8 @@
 import { Controller, Param, Post, Put, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ServiceFile } from "./service.file";
-import { MinSizeAndFormat } from "src/Pipes/minSize.pipe";
-import { AuthGuard } from "src/Guard/Auth.guard";
+import { MinSizeAndFormat } from "../Pipes/minSize.pipe";
+import { AuthGuard } from "../Guard/Auth.guard";
 
 
 

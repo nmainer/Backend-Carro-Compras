@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post } from "@nestjs/common";
 import { CategoryService } from "./categorie.service";
-import { Category } from "src/Entities/Categories/categories.entity";
-import { categoryDTO } from "src/Entities/Categories/categoryDTO";
+import { Category } from "../Entities/Categories/categories.entity";
+import { categoryDTO } from "../Entities/Categories/categoryDTO";
 
 
 @Controller("categories")

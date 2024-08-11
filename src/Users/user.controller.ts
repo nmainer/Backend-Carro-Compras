@@ -1,12 +1,12 @@
 import { Body, Controller, Delete, Get, HttpCode, Param, ParseUUIDPipe, Post, Put, Query, Req, UseGuards } from "@nestjs/common";
 import { UserService } from "../Users/user.service";
 import { CreateUserDto } from "../DTO´S/UserDto";
-import { AuthGuard } from "src/Guard/Auth.guard";
-import { CredentialDto } from "src/DTO´S/LoginDto";
+import { AuthGuard } from "../Guard/Auth.guard";
+import { CredentialDto } from "../DTO´S/LoginDto";
 import { Request } from "express";
-import { RolesGuard } from "src/Guard/Roles.guard";
-import { Roles } from "src/Roles/Roles.decorator";
-import { Rol } from "src/Enum/Roles.enum";
+import { RolesGuard } from "../Guard/Roles.guard";
+import { Roles } from "../Roles/Roles.decorator";
+import { Rol } from "../Enum/Roles.enum";
 
 
 

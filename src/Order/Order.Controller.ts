@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post ,ParseUUIDPipe, UseGuards } from "@nestjs/common";
 import { CreateOrderDto } from "../DTO´S/OrderDTO";
 import { OrderService } from "./Order.services";
-import { AuthGuard } from "src/Guard/Auth.guard";
+import { AuthGuard } from "../Guard/Auth.guard";
 
 
 
