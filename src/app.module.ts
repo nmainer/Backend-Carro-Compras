@@ -11,20 +11,28 @@ import { ModuleFile } from './Files/module.file';
 import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports: [TypeOrmModule.forRootAsync({
-
-    inject : [ConfigService] ,
-    useFactory : (configService : ConfigService) => configService.get("typeorm")
-  }),
-  ConfigModule.forRoot({
-    isGlobal:true ,
-    load:[configureTypeOrm],
-  }),
-   UserModule,ModuleOrder, ProductsModule,AuthModule,CategorieModule,ModuleFile,JwtModule.register(
-    {global:true,signOptions:{expiresIn:"1h"},secret: process.env.JWT_SECRET}),
-],
-
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [configureTypeOrm],
+    }),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => configService.get('typeorm'),
+    }),
+    UserModule,
+    ModuleOrder,
+    ProductsModule,
+    AuthModule,
+    CategorieModule,
+    ModuleFile,
+    JwtModule.register({
+      global: true,
+      signOptions: { expiresIn: '1h' },
+      secret: process.env.JWT_SECRET,
+    }),
+  ],
   providers: [],
-  controllers:[]
+  controllers: [],
 })
 export class AppModule {}
