@@ -2,6 +2,7 @@ import { UsersRepository } from "../Users/User.Repository";
 import { CredentialDto } from "../DTO´S/LoginDto";
 import { CreateUserDto } from "../DTO´S/UserDto";
 import { JwtService } from "@nestjs/jwt";
+import { User } from "src/Entities/Users/Users.entity";
 export declare class RespositoryAuth {
     private readonly userService;
     private readonly jwtService;
@@ -10,5 +11,5 @@ export declare class RespositoryAuth {
         success: string;
         token: string;
     }>;
-    getRegister(Register: CreateUserDto): Promise<string>;
+    getRegister(Register: CreateUserDto): Promise<Partial<User>>;
 }

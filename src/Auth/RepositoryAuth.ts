@@ -4,6 +4,7 @@ import { BadRequestException, HttpException, HttpStatus, Injectable } from "@nes
 import * as bcrypt from "bcrypt";
 import { CreateUserDto } from "../DTO´S/UserDto";
 import { JwtService } from "@nestjs/jwt";
+import { User } from "src/Entities/Users/Users.entity";
 
 
 
@@ -49,10 +50,8 @@ return {success: "Registro exitoso" , token};
 async getRegister(Register: CreateUserDto){
 
 if(Register.password !== Register.confirmPassword){
-    return "Las contraseñas deben coincidir"
+    throw new Error ("Las contraseñas deben coincidir");
 }
-
-
 const user= await this.userService.getUserByEmail(Register.email);
 
 
@@ -65,10 +64,10 @@ const passwordHashed = await bcrypt.hash(Register.password ,10);
 if(!passwordHashed){
     throw new BadRequestException ("password could not hashed");
 }
-const userNew = {...Register,password:passwordHashed}
 
 
-return this.userService.getNewUser(userNew);
+ return this.userService.getNewUser({...Register,password:passwordHashed});
+
 }
 
 }

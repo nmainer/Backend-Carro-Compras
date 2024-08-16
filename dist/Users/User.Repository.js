@@ -44,11 +44,18 @@ let UsersRepository = class UsersRepository {
                 orders: us.orders
             };
         }
-        throw new common_1.HttpException(`usuario inexistente`, common_1.HttpStatus.NOT_FOUND);
+        else {
+            return { message: "Usuario inexistente" };
+        }
     }
     async getNewUser(us) {
         const newUser = await this.repositoryUser.save(us);
-        return `id generado: ${newUser.id}`;
+        return {
+            id: newUser.id,
+            name: newUser.name,
+            email: newUser.email,
+            password: newUser.password
+        };
     }
     async getUserByEmail(email) {
         const userByEmail = await this.repositoryUser.findOne({ where: { email } });

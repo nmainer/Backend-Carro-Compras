@@ -30,9 +30,7 @@ export class OrderService{
      }
      
 
-      const productos = products.map(elemento=>elemento.id)
-
-      const productsId = await this.respositoryProduct.find({where:{id: In(productos)}});
+      const productsId = await this.respositoryProduct.find({where:{id: In(products)}});
       
 
       const productUnavailable = await productsId.filter(producto =>producto.stock <=0);
@@ -41,7 +39,7 @@ export class OrderService{
         throw new HttpException(`el/los producto/s : ${productUnavailable.map (producto =>producto.id).join(",")} no poseen stock`, HttpStatus.NOT_FOUND);
       }
 
-      if(productsId.length !== productos.length){
+      if(productsId.length !== products.length){
 
         throw new HttpException( `uno o varios productos no encontrados`, HttpStatus.NOT_FOUND);
     

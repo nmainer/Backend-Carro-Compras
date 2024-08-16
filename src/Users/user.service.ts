@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, Injectable } from "@nestjs/common";
 import { UsersRepository } from "./User.Repository";
 import { CreateUserDto } from "../DTO´S/UserDto";
 import { CredentialDto } from "../DTO´S/LoginDto";
@@ -15,8 +15,10 @@ export class UserService{
      return this.userRepository.getRepository(page,limit);
     }
     async getUserbyId(id: string) {
-        return this.userRepository.getUserId(id)
-    }
+        
+     return this.userRepository.getUserId(id)  
+     }   
+    
     async getNewUser(us : CreateUserDto){
        return this.userRepository.getNewUser(us)
     }
@@ -29,6 +31,7 @@ export class UserService{
     async deleteUser(id:string) {
        return this.userRepository.deleteUser(id);
       }
-}
+
+    }
  
 

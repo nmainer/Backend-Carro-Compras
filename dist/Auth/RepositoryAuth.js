@@ -43,7 +43,7 @@ let RespositoryAuth = class RespositoryAuth {
     }
     async getRegister(Register) {
         if (Register.password !== Register.confirmPassword) {
-            return "Las contraseñas deben coincidir";
+            throw new Error("Las contraseñas deben coincidir");
         }
         const user = await this.userService.getUserByEmail(Register.email);
         if (user) {
@@ -53,8 +53,7 @@ let RespositoryAuth = class RespositoryAuth {
         if (!passwordHashed) {
             throw new common_1.BadRequestException("password could not hashed");
         }
-        const userNew = { ...Register, password: passwordHashed };
-        return this.userService.getNewUser(userNew);
+        return this.userService.getNewUser({ ...Register, password: passwordHashed });
     }
 };
 exports.RespositoryAuth = RespositoryAuth;

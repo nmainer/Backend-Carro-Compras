@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, ParseUUIDPipe, Post, Put, Query, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, ParseUUIDPipe, Post, Put, Query, Req, UseGuards } from "@nestjs/common";
 import { UserService } from "../Users/user.service";
 import { CreateUserDto } from "../DTO´S/UserDto";
 import { AuthGuard } from "../Guard/Auth.guard";
@@ -55,7 +55,6 @@ export class UserController{
     @Delete(":id")
     @UseGuards(AuthGuard)
     deleteUser(@Param("id") id : string){
-     
      return this.userService.deleteUser(id);
     }
     
@@ -63,10 +62,11 @@ export class UserController{
     @Get(":id")
     @UseGuards(AuthGuard)
     getUserbyId(@Param("id") id : string){
-     
-    return this.userService.getUserbyId(id)
-    }
-         
+  
+      return this.userService.getUserbyId(id);
+      
+     }
+       
 } 
         
 

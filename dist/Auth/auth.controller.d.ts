@@ -8,5 +8,5 @@ export declare class AuthController {
         success: string;
         token: string;
     }>;
-    singUp(Register: CreateUserDto): Promise<string>;
+    singUp(Register: CreateUserDto): Promise<Partial<import("../Entities/Users/Users.entity").User>>;
 }

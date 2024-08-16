@@ -32,13 +32,12 @@ let OrderService = class OrderService {
         if (!userById) {
             throw new common_1.HttpException(`usuario inexistente`, common_1.HttpStatus.NOT_FOUND);
         }
-        const productos = products.map(elemento => elemento.id);
-        const productsId = await this.respositoryProduct.find({ where: { id: (0, typeorm_2.In)(productos) } });
+        const productsId = await this.respositoryProduct.find({ where: { id: (0, typeorm_2.In)(products) } });
         const productUnavailable = await productsId.filter(producto => producto.stock <= 0);
         if (productUnavailable.length > 0) {
             throw new common_1.HttpException(`el/los producto/s : ${productUnavailable.map(producto => producto.id).join(",")} no poseen stock`, common_1.HttpStatus.NOT_FOUND);
         }
-        if (productsId.length !== productos.length) {
+        if (productsId.length !== products.length) {
             throw new common_1.HttpException(`uno o varios productos no encontrados`, common_1.HttpStatus.NOT_FOUND);
         }
         for (let i = 0; i < productsId.length; i = i + 1) {

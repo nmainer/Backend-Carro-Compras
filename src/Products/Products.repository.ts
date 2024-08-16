@@ -25,8 +25,9 @@ async getProducts(page: number , limit:number): Promise<Product[]>{
     return valoresprod; 
 }
 
-async getNewProduct(product:ProductsDto[]) : Promise<Product|string> {
-    
+async getNewProduct(product:ProductsDto[]) : Promise<string> {
+
+  
   for (const produ of product) {
 
 
@@ -44,7 +45,7 @@ async getNewProduct(product:ProductsDto[]) : Promise<Product|string> {
             newProduct.stock = produ.stock
             newProduct.category = categoria
 
-         await this.repositoryProduct.save(newProduct);
+        await this.repositoryProduct.save(newProduct);
        
         
         } else {

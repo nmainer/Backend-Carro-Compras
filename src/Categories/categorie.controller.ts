@@ -15,7 +15,7 @@ return this.categoryService.getCategories();
 
 
 @Post("seeder")
-addCategories(@Body() category : categoryDTO[]) : Promise<string>{
+addCategories(@Body() category : categoryDTO[]) : Promise<Category[]>{
 return this.categoryService.addCategories(category)
 }
 

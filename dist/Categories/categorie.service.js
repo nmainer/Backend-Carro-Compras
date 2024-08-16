@@ -25,13 +25,14 @@ let CategoryService = class CategoryService {
         return this.categoryRepository.find();
     }
     async addCategories(category) {
+        let valor;
         for (const categoryDtO of category) {
             const categoryExist = await this.categoryRepository.findOne({ where: { name: categoryDtO.name } });
             if (!categoryExist) {
-                await this.categoryRepository.save(categoryDtO);
+                valor = await this.categoryRepository.save(categoryDtO);
             }
         }
-        return `categorias creadas`;
+        return valor;
     }
 };
 exports.CategoryService = CategoryService;

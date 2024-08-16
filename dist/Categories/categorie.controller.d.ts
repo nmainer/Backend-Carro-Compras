@@ -5,5 +5,5 @@ export declare class CategoryController {
     private readonly categoryService;
     constructor(categoryService: CategoryService);
     getCategories(): Promise<Category[]>;
-    addCategories(category: categoryDTO[]): Promise<string>;
+    addCategories(category: categoryDTO[]): Promise<Category[]>;
 }

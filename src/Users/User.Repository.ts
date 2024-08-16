@@ -25,7 +25,7 @@ export class UsersRepository{
   return userPage;
 }
 
- async getUserId(id:string) : Promise<Omit<User2, "admin"> |string>{
+ async getUserId(id:string) : Promise<Omit<User2, "admin"> |object>{
   const us = await  this.repositoryUser.findOne({where:{id}});
 
   if(us){
@@ -39,15 +39,21 @@ export class UsersRepository{
     city: us.city,
     orders:us.orders
     }
-  }
- throw new HttpException(`usuario inexistente`, HttpStatus.NOT_FOUND);
-  
+  } else {
+     return {message:"Usuario inexistente"}
+ }
 }
 
-async getNewUser(us:CreateUserDto): Promise <string>{
+async getNewUser(us:CreateUserDto): Promise<Partial<User>>{
 
   const newUser = await this.repositoryUser.save(us)
-  return `id generado: ${newUser.id}`;
+  
+  return {
+    id : newUser.id,
+    name:newUser.name,
+    email:newUser.email,
+    password:newUser.password
+  }
 }
 
 
