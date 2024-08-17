@@ -13,13 +13,16 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductsController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const products_service_1 = require("./products.service");
 const Auth_guard_1 = require("../Guard/Auth.guard");
 const products_entity_1 = require("../Entities/Products/products.entity");
+const ProductsDto_1 = require("../DTO\u00B4S/ProductsDto");
 const Roles_guard_1 = require("../Guard/Roles.guard");
 const Roles_decorator_1 = require("../Roles/Roles.decorator");
 const Roles_enum_1 = require("../Enum/Roles.enum");
+const swagger_1 = require("@nestjs/swagger");
 let ProductsController = class ProductsController {
     constructor(productsService) {
         this.productsService = productsService;
@@ -28,25 +31,66 @@ let ProductsController = class ProductsController {
         return this.productsService.getProducts(page, limit);
     }
     getPost(product) {
-        return this.productsService.getNewProduct(product);
+        try {
+            return this.productsService.getNewProduct(product);
+        }
+        catch (error) {
+            if (error.message === `el producto ya existe`) {
+                throw new common_1.ConflictException(error.message);
+            }
+            else {
+                throw new common_1.HttpException("Error inesperado", common_1.HttpStatus.CONFLICT);
+            }
+        }
     }
     getPutproducts(id, product) {
         const productId = id;
-        return this.productsService.putProduct(productId, product);
+        try {
+            return this.productsService.putProduct(productId, product);
+        }
+        catch (error) {
+            if (error.message === `id no encontrado`) {
+                throw new common_1.ConflictException(error.message);
+            }
+            else {
+                throw new common_1.HttpException("Error inesperado", common_1.HttpStatus.CONFLICT);
+            }
+        }
     }
     deleteProducts(id) {
         const productId = id;
-        return this.productsService.deleteProduct(productId);
+        try {
+            return this.productsService.deleteProduct(productId);
+        }
+        catch (error) {
+            if (error.message === `id no encontrado`) {
+                throw new common_1.ConflictException(error.message);
+            }
+            else {
+                throw new common_1.HttpException("Error inesperado", common_1.HttpStatus.CONFLICT);
+            }
+        }
     }
     getProductbyId(id) {
         const productId = id;
-        return this.productsService.productId(productId);
+        try {
+            return this.productsService.productId(productId);
+        }
+        catch (error) {
+            if (error.message === `id no encontrado`) {
+                throw new common_1.ConflictException(error.message);
+            }
+            else {
+                throw new common_1.HttpException("Error inesperado", common_1.HttpStatus.CONFLICT);
+            }
+        }
     }
 };
 exports.ProductsController = ProductsController;
 __decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(),
+    openapi.ApiResponse({ status: 200, type: [require("../Entities/Products/products.entity").Product] }),
     __param(0, (0, common_1.Query)("page")),
     __param(1, (0, common_1.Query)("limit")),
     __metadata("design:type", Function),
@@ -57,9 +101,10 @@ __decorate([
     (0, common_1.HttpCode)(201),
     (0, common_1.Post)("seeder"),
     (0, common_1.UseGuards)(Auth_guard_1.AuthGuard),
+    openapi.ApiResponse({ status: 201, type: String }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Array]),
+    __metadata("design:paramtypes", [ProductsDto_1.ProductsDto]),
     __metadata("design:returntype", void 0)
 ], ProductsController.prototype, "getPost", null);
 __decorate([
@@ -67,6 +112,7 @@ __decorate([
     (0, common_1.Put)(":id"),
     (0, Roles_decorator_1.Roles)(Roles_enum_1.Rol.admin),
     (0, common_1.UseGuards)(Auth_guard_1.AuthGuard, Roles_guard_1.RolesGuard),
+    openapi.ApiResponse({ status: 200, type: String }),
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -77,6 +123,7 @@ __decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.Delete)(":id"),
     (0, common_1.UseGuards)(Auth_guard_1.AuthGuard),
+    openapi.ApiResponse({ status: 200, type: String }),
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -86,12 +133,14 @@ __decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(":id"),
     (0, common_1.UseGuards)(Auth_guard_1.AuthGuard),
+    openapi.ApiResponse({ status: 200, type: require("../Entities/Products/products.entity").Product }),
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], ProductsController.prototype, "getProductbyId", null);
 exports.ProductsController = ProductsController = __decorate([
+    (0, swagger_1.ApiTags)("Products"),
     (0, common_1.Controller)("products"),
     __metadata("design:paramtypes", [products_service_1.ProductsService])
 ], ProductsController);

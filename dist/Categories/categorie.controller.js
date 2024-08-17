@@ -13,8 +13,11 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CategoryController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const categorie_service_1 = require("./categorie.service");
+const categoryDTO_1 = require("../DTO\u00B4S/categoryDTO");
+const swagger_1 = require("@nestjs/swagger");
 let CategoryController = class CategoryController {
     constructor(categoryService) {
         this.categoryService = categoryService;
@@ -23,24 +26,34 @@ let CategoryController = class CategoryController {
         return this.categoryService.getCategories();
     }
     addCategories(category) {
-        return this.categoryService.addCategories(category);
+        try {
+            return this.categoryService.addCategories(category);
+        }
+        catch (error) {
+            if (error.message === "Ya existe esta categoria") {
+                throw new common_1.HttpException(error.message, common_1.HttpStatus.BAD_REQUEST);
+            }
+        }
     }
 };
 exports.CategoryController = CategoryController;
 __decorate([
     (0, common_1.Get)(),
+    openapi.ApiResponse({ status: 200, type: [require("../Entities/Categories/categories.entity").Category] }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], CategoryController.prototype, "getCategories", null);
 __decorate([
     (0, common_1.Post)("seeder"),
+    openapi.ApiResponse({ status: 201, type: [require("../Entities/Categories/categories.entity").Category] }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Array]),
+    __metadata("design:paramtypes", [categoryDTO_1.ArrayCategoryDTO]),
     __metadata("design:returntype", Promise)
 ], CategoryController.prototype, "addCategories", null);
 exports.CategoryController = CategoryController = __decorate([
+    (0, swagger_1.ApiTags)("Categories"),
     (0, common_1.Controller)("categories"),
     __metadata("design:paramtypes", [categorie_service_1.CategoryService])
 ], CategoryController);

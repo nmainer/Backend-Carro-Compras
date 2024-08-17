@@ -1,18 +1,18 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, ParseUUIDPipe, Post, Put, Query, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, NotFoundException, Param, ParseUUIDPipe, Post, Put, Query, Req, UseGuards } from "@nestjs/common";
 import { UserService } from "../Users/user.service";
 import { CreateUserDto } from "../DTO´S/UserDto";
 import { AuthGuard } from "../Guard/Auth.guard";
-import { CredentialDto } from "../DTO´S/LoginDto";
 import { Request } from "express";
 import { RolesGuard } from "../Guard/Roles.guard";
 import { Roles } from "../Roles/Roles.decorator";
 import { Rol } from "../Enum/Roles.enum";
+import { ApiTags } from "@nestjs/swagger";
 
 
 
 
 
-
+@ApiTags("User")
 @Controller("users")
 export class UserController{
     constructor( private readonly userService : UserService){}
@@ -47,25 +47,47 @@ export class UserController{
     @Put(":id")
     @UseGuards(AuthGuard)
     getPutUsers(@Param("id" , ParseUUIDPipe) id : string , @Body() userdto: CreateUserDto){
-
-     return this.userService.getPutUsers(id , userdto)
+     try{
+      return this.userService.getPutUsers(id , userdto)
+     }catch(error){
+      if(error.message === `id no encontrado`){
+        throw new NotFoundException(error.message)
+      }else {
+        throw new HttpException( "Error inesperado", HttpStatus.CONFLICT)
+      }
     }
+  }
     
     @HttpCode(200)
     @Delete(":id")
     @UseGuards(AuthGuard)
     deleteUser(@Param("id") id : string){
-     return this.userService.deleteUser(id);
+      try{
+        return this.userService.deleteUser(id);
+      }catch(error){
+        if(error.message === `id no encontrado`){
+          throw new NotFoundException(error.message)
+        }else {
+          throw new HttpException( "Error inesperado", HttpStatus.CONFLICT)
+        }
+      }
+     
     }
-    
+  
     @HttpCode(200)
     @Get(":id")
     @UseGuards(AuthGuard)
     getUserbyId(@Param("id") id : string){
   
-      return this.userService.getUserbyId(id);
-      
-     }
+  try{
+    return this.userService.getUserbyId(id);
+  }catch(error){
+    if(error.message === "Usuario inexistente"){
+      throw new NotFoundException(error.message)
+    }else {
+      throw new HttpException( "Error inesperado", HttpStatus.CONFLICT)
+    }
+  }}
        
 } 
         

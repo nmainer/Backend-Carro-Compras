@@ -26,7 +26,7 @@ export class OrderService{
      const userById = await this.repositoryUser.findOne({where:{id:userid}} );
      
      if(!userById){
-      throw new HttpException(`usuario inexistente`, HttpStatus.NOT_FOUND);
+      throw new Error(`usuario inexistente`);
      }
      
 
@@ -36,12 +36,12 @@ export class OrderService{
       const productUnavailable = await productsId.filter(producto =>producto.stock <=0);
       if(productUnavailable.length > 0){
 
-        throw new HttpException(`el/los producto/s : ${productUnavailable.map (producto =>producto.id).join(",")} no poseen stock`, HttpStatus.NOT_FOUND);
+        throw new Error(`el/los producto/s : ${productUnavailable.map (producto =>producto.id).join(",")} no poseen stock`);
       }
 
       if(productsId.length !== products.length){
 
-        throw new HttpException( `uno o varios productos no encontrados`, HttpStatus.NOT_FOUND);
+        throw new Error( `uno o varios productos no encontrados`);
     
       }
       

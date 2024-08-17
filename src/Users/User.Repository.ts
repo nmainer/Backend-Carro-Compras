@@ -4,7 +4,7 @@ import { CreateUserDto} from "../DTO´S/UserDto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "../Entities/Users/Users.entity";
 import { Repository } from "typeorm";
-import { CredentialDto } from "../DTO´S/LoginDto";
+
 
 
 
@@ -40,7 +40,7 @@ export class UsersRepository{
     orders:us.orders
     }
   } else {
-     return {message:"Usuario inexistente"}
+     throw new Error ("Usuario inexistente")
  }
 }
 
@@ -68,10 +68,10 @@ async getUserByEmail(email:string) {
     const users = {...userid,...userdto};
     await this.repositoryUser.save(users)
     
-    return `ususario con id N°${users.id} fue modificado`
+    return `usuario con id N°${users.id} fue modificado`
     
   }
-  throw new HttpException(`id no encontrado`, HttpStatus.NOT_FOUND);
+  throw new Error(`id no encontrado`);
 }
 
 async deleteUser(id:string) {
@@ -81,7 +81,7 @@ async deleteUser(id:string) {
    
    return `el registro ${valor} fue eliminado`
   }
-  throw new HttpException(`id no encontrado`, HttpStatus.NOT_FOUND) 
+  throw new Error(`id no encontrado`) 
 }
 
 }

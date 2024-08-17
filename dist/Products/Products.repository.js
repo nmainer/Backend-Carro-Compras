@@ -33,7 +33,7 @@ let ProductsRepository = class ProductsRepository {
         return valoresprod;
     }
     async getNewProduct(product) {
-        for (const produ of product) {
+        for (const produ of product.products) {
             const categoria = await this.repositoryCategory.findOne({ where: { name: produ.category } });
             if (categoria) {
                 const productExist = await this.repositoryProduct.findOne({ where: { name: produ.name } });
@@ -47,7 +47,7 @@ let ProductsRepository = class ProductsRepository {
                     await this.repositoryProduct.save(newProduct);
                 }
                 else {
-                    throw new common_1.HttpException(`el producto ya existe`, common_1.HttpStatus.BAD_REQUEST);
+                    throw new Error(`el producto ya existe`);
                 }
             }
         }
@@ -60,7 +60,7 @@ let ProductsRepository = class ProductsRepository {
             await this.repositoryProduct.save(actualizer);
             return `producto con N° id ${id} fue modificado`;
         }
-        throw new common_1.HttpException(`id no encontrado`, common_1.HttpStatus.NOT_FOUND);
+        throw new Error(`id no encontrado`);
     }
     async deleteProduct(id) {
         const productId = await this.repositoryProduct.findOneBy({ id });
@@ -68,14 +68,14 @@ let ProductsRepository = class ProductsRepository {
             this.repositoryProduct.delete(productId);
             return ` el producto con id N° ${id} fue eliminado`;
         }
-        throw new common_1.HttpException(`id no encontrado`, common_1.HttpStatus.NOT_FOUND);
+        throw new Error(`id no encontrado`);
     }
     async productId(id) {
         const productId = this.repositoryProduct.findOne({ where: { id } });
         if (productId) {
             return productId;
         }
-        throw new common_1.HttpException(`id no encontrado`, common_1.HttpStatus.NOT_FOUND);
+        throw new Error(`id no encontrado`);
     }
 };
 exports.ProductsRepository = ProductsRepository;

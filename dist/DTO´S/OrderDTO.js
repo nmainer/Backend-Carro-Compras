@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderDto = exports.CreateOrderDto = void 0;
+const swagger_1 = require("@nestjs/swagger");
 const class_transformer_1 = require("class-transformer");
 const class_validator_1 = require("class-validator");
 class ArrayProducts {
@@ -22,11 +23,22 @@ class CreateOrderDto {
 }
 exports.CreateOrderDto = CreateOrderDto;
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        description: "Aqui se coloca el usuario por su uuid",
+        example: "55e8e852-5ac7-4589-8304-f7ece2bcabae",
+    }),
     (0, class_validator_1.IsUUID)(),
     (0, class_validator_1.IsNotEmpty)({ message: "la propiedad userid no debe estar vacia" }),
     __metadata("design:type", String)
 ], CreateOrderDto.prototype, "userid", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        description: "Aqui se colocan los productos por su uuid",
+        example: [
+            { id: "67e506a2-1f72-42dc-992a-a38c8ddc39e5" },
+            { id: "67e506a2-1f72-42dc-992a-a38c8ddc39e5" }
+        ]
+    }),
     (0, class_validator_1.IsArray)(),
     (0, class_validator_1.ArrayMinSize)(1, { message: "la propiedad productos debe contener al menos 1 elemento" }),
     (0, class_validator_1.ValidateNested)({ each: true }),

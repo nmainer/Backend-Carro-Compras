@@ -17,12 +17,26 @@ const common_1 = require("@nestjs/common");
 const OrderDTO_1 = require("../DTO\u00B4S/OrderDTO");
 const Order_services_1 = require("./Order.services");
 const Auth_guard_1 = require("../Guard/Auth.guard");
+const swagger_1 = require("@nestjs/swagger");
 let OrderController = class OrderController {
     constructor(orderService) {
         this.orderService = orderService;
     }
     addOrder(order) {
-        return this.orderService.addOrder(order);
+        try {
+            return this.orderService.addOrder(order);
+        }
+        catch (error) {
+            if (error.message.includes('no poseen stock')) {
+                throw new common_1.BadRequestException("El/los productos seleccionados no posee/n stock");
+            }
+            else if (error.message === `uno o varios productos no encontrados`) {
+                throw new common_1.NotFoundException(error.message);
+            }
+            else {
+                throw new Error('Error desconocido');
+            }
+        }
     }
     getOrder(id) {
         return this.orderService.getOrder(id);
@@ -46,6 +60,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], OrderController.prototype, "getOrder", null);
 exports.OrderController = OrderController = __decorate([
+    (0, swagger_1.ApiTags)("Orders"),
     (0, common_1.Controller)("orders"),
     __metadata("design:paramtypes", [Order_services_1.OrderService])
 ], OrderController);

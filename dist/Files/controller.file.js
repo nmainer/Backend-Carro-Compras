@@ -18,6 +18,7 @@ const platform_express_1 = require("@nestjs/platform-express");
 const service_file_1 = require("./service.file");
 const minSize_pipe_1 = require("../Pipes/minSize.pipe");
 const Auth_guard_1 = require("../Guard/Auth.guard");
+const swagger_1 = require("@nestjs/swagger");
 let ControllerFile = class ControllerFile {
     constructor(serviceFile) {
         this.serviceFile = serviceFile;
@@ -39,6 +40,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ControllerFile.prototype, "addFile", null);
 exports.ControllerFile = ControllerFile = __decorate([
+    (0, swagger_1.ApiTags)("Files"),
     (0, common_1.Controller)("files/uploadImage"),
     __metadata("design:paramtypes", [service_file_1.ServiceFile])
 ], ControllerFile);

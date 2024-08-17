@@ -16,7 +16,7 @@ export class ProductsService {
     getProducts (page:number , limit:number){
         return this.productsRepository.getProducts(page,limit);
     }
-    getNewProduct(product:ProductsDto[]) {
+    getNewProduct(product:ProductsDto) {
         return this.productsRepository.getNewProduct(product);
     }
     putProduct(id:string, product: Product) {

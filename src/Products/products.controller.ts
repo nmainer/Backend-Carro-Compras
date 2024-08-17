@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, ParseUUIDPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
+import { Body, ConflictException, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, ParseUUIDPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
 import { ProductsService } from "./products.service";
 import { AuthGuard } from "../Guard/Auth.guard";
 import { Product } from "../Entities/Products/products.entity";
@@ -6,11 +6,12 @@ import { ProductsDto } from "../DTO´S/ProductsDto";
 import { RolesGuard } from "../Guard/Roles.guard";
 import { Roles } from "../Roles/Roles.decorator";
 import { Rol } from "../Enum/Roles.enum";
+import { ApiTags } from "@nestjs/swagger";
 
 
 
 
-
+@ApiTags("Products")
 @Controller("products")
 export class ProductsController{
     constructor(private readonly productsService : ProductsService){}
@@ -24,8 +25,18 @@ export class ProductsController{
     @HttpCode(201)
     @Post("seeder")
     @UseGuards(AuthGuard)
-    getPost(@Body() product:ProductsDto[]){
-        return this.productsService.getNewProduct(product);
+    getPost(@Body() product:ProductsDto){
+
+        try{
+            return this.productsService.getNewProduct(product);
+        }catch(error){
+            if(error.message === `el producto ya existe`){
+                throw new ConflictException(error.message)
+            } else {
+                throw new HttpException("Error inesperado", HttpStatus.CONFLICT)
+            }
+        }
+        
     }
     
     @HttpCode(200)
@@ -34,7 +45,16 @@ export class ProductsController{
     @UseGuards(AuthGuard ,RolesGuard)
     getPutproducts(@Param("id" ,ParseUUIDPipe) id : string , @Body() product: Product){
         const productId = id;
-        return this.productsService.putProduct(productId , product);
+        try{
+            return this.productsService.putProduct(productId , product);
+        }catch(error){
+            if(error.message === `id no encontrado`){
+                throw new ConflictException(error.message)
+            } else {
+                throw new HttpException("Error inesperado", HttpStatus.CONFLICT)
+            }
+        }
+       
     }
     
     @HttpCode(200)
@@ -42,14 +62,32 @@ export class ProductsController{
     @UseGuards(AuthGuard)
     deleteProducts(@Param("id" ,ParseUUIDPipe) id : string){
      const productId = id;
-     return this.productsService.deleteProduct(productId)
+     try{
+        return this.productsService.deleteProduct(productId)
+     } catch (error){
+        if(error.message === `id no encontrado`){
+            throw new ConflictException(error.message)
+        }  else {
+        throw new HttpException("Error inesperado", HttpStatus.CONFLICT) 
+     }
     }
+}
+
+
     @HttpCode(200)
     @Get(":id")
     @UseGuards(AuthGuard)
     getProductbyId(@Param("id" , ParseUUIDPipe) id: string){
       const productId = id;
-      return this.productsService.productId(productId);
+      try{
+        return this.productsService.productId(productId);
+      }catch(error){
+        if(error.message ===`id no encontrado`){
+            throw new ConflictException(error.message)
+        } else{
+            throw new HttpException("Error inesperado", HttpStatus.CONFLICT) 
+        }
+      }  
     }
 };
 

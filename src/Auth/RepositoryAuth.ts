@@ -20,17 +20,17 @@ async getLogin(Login : CredentialDto){
 
 const user = await this.userService.getUserByEmail(Login.email);
 if(!user){
-    throw new BadRequestException("Usuario no registrado");
+    throw new Error("Usuario no registrado");
 }
 
 const hashPassword = await bcrypt.compare(Login.password, user.password);
 
 if(!hashPassword){
-    throw new BadRequestException(`Usuario y/o contraseña incorrecta/s`);;
+    throw new Error(`Usuario y/o contraseña incorrecta/s`);;
 }
 
 if(!Login.email && !Login.password){
-    throw new BadRequestException("faltan datos")
+    throw new Error("faltan datos")
 }
 
 const userPayLoad = {
@@ -50,19 +50,19 @@ return {success: "Registro exitoso" , token};
 async getRegister(Register: CreateUserDto){
 
 if(Register.password !== Register.confirmPassword){
-    throw new Error ("Las contraseñas deben coincidir");
+    throw new Error("Las contraseñas deben coincidir");
 }
 const user= await this.userService.getUserByEmail(Register.email);
 
 
 if(user){
- throw new HttpException("el email actual ya se encuentra registrado" , HttpStatus.BAD_REQUEST);
+throw new Error ("el email actual ya se encuentra registrado");
 }
 
 
 const passwordHashed = await bcrypt.hash(Register.password ,10);
 if(!passwordHashed){
-    throw new BadRequestException ("password could not hashed");
+    throw new Error ("password no fue hasheado");
 }
 
 

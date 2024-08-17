@@ -25,10 +25,10 @@ async getProducts(page: number , limit:number): Promise<Product[]>{
     return valoresprod; 
 }
 
-async getNewProduct(product:ProductsDto[]) : Promise<string> {
+async getNewProduct(product:ProductsDto) : Promise<string> {
 
   
-  for (const produ of product) {
+  for (const produ of product.products) {
 
 
     const categoria = await this.repositoryCategory.findOne({where:{name: produ.category}});
@@ -49,7 +49,7 @@ async getNewProduct(product:ProductsDto[]) : Promise<string> {
        
         
         } else {
-            throw new HttpException(`el producto ya existe`, HttpStatus.BAD_REQUEST)
+            throw new Error(`el producto ya existe`)
         }
     }
   }
@@ -71,7 +71,7 @@ async putProduct(id:string , product: Product):Promise<string> {
    
         return `producto con N° id ${id} fue modificado`
     }
-    throw new HttpException(`id no encontrado`, HttpStatus.NOT_FOUND) 
+    throw new Error(`id no encontrado`) 
 }
 
 
@@ -84,7 +84,7 @@ async deleteProduct(id:string):Promise<string> {
 
         return ` el producto con id N° ${id} fue eliminado`
     }
-    throw new HttpException(`id no encontrado`, HttpStatus.NOT_FOUND) 
+    throw new Error(`id no encontrado`) 
 }
 
 async productId(id:string): Promise<Product> {
@@ -92,6 +92,6 @@ async productId(id:string): Promise<Product> {
    if(productId){
     return productId;
    }
-   throw new HttpException(`id no encontrado`, HttpStatus.NOT_FOUND) 
+   throw new Error(`id no encontrado`) 
 }
 }

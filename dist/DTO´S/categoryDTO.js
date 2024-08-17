@@ -9,13 +9,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.categoryDTO = void 0;
+exports.ArrayCategoryDTO = void 0;
+const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
-class categoryDTO {
+class CategoryDTO {
 }
-exports.categoryDTO = categoryDTO;
 __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], categoryDTO.prototype, "name", void 0);
+], CategoryDTO.prototype, "name", void 0);
+class ArrayCategoryDTO {
+}
+exports.ArrayCategoryDTO = ArrayCategoryDTO;
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, swagger_1.ApiProperty)({
+        description: "Aqui se coloca  el array de nombres de categoria",
+        example: [{ name: "smartphone" }, { name: "monitor" }, { name: "mouse" }]
+    }),
+    __metadata("design:type", Array)
+], ArrayCategoryDTO.prototype, "categorias", void 0);
 //# sourceMappingURL=categoryDTO.js.map

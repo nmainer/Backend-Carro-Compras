@@ -45,7 +45,7 @@ let UsersRepository = class UsersRepository {
             };
         }
         else {
-            return { message: "Usuario inexistente" };
+            throw new Error("Usuario inexistente");
         }
     }
     async getNewUser(us) {
@@ -66,9 +66,9 @@ let UsersRepository = class UsersRepository {
         if (userid) {
             const users = { ...userid, ...userdto };
             await this.repositoryUser.save(users);
-            return `ususario con id N°${users.id} fue modificado`;
+            return `usuario con id N°${users.id} fue modificado`;
         }
-        throw new common_1.HttpException(`id no encontrado`, common_1.HttpStatus.NOT_FOUND);
+        throw new Error(`id no encontrado`);
     }
     async deleteUser(id) {
         const user = await this.repositoryUser.findOne({ where: { id } });
@@ -76,7 +76,7 @@ let UsersRepository = class UsersRepository {
             const valor = await this.repositoryUser.remove(user);
             return `el registro ${valor} fue eliminado`;
         }
-        throw new common_1.HttpException(`id no encontrado`, common_1.HttpStatus.NOT_FOUND);
+        throw new Error(`id no encontrado`);
     }
 };
 exports.UsersRepository = UsersRepository;

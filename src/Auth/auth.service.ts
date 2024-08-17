@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { RespositoryAuth } from "./RepositoryAuth";
 import { CredentialDto} from "../DTO´S/LoginDto";
 import { CreateUserDto } from "../DTO´S/UserDto";
-import { UserService } from "../Users/user.service";
+
 
 
 

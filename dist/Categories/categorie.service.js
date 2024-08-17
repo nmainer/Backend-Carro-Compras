@@ -26,10 +26,13 @@ let CategoryService = class CategoryService {
     }
     async addCategories(category) {
         let valor;
-        for (const categoryDtO of category) {
+        for (const categoryDtO of category.categorias) {
             const categoryExist = await this.categoryRepository.findOne({ where: { name: categoryDtO.name } });
             if (!categoryExist) {
                 valor = await this.categoryRepository.save(categoryDtO);
+            }
+            else {
+                throw new Error("Ya existe esta categoria");
             }
         }
         return valor;

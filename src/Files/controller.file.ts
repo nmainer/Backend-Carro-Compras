@@ -3,10 +3,11 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { ServiceFile } from "./service.file";
 import { MinSizeAndFormat } from "../Pipes/minSize.pipe";
 import { AuthGuard } from "../Guard/Auth.guard";
+import { ApiTags } from "@nestjs/swagger";
 
 
 
-
+@ApiTags("Files")
 
 @Controller("files/uploadImage")
 export class ControllerFile {

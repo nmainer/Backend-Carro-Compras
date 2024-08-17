@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const user_service_1 = require("../Users/user.service");
 const UserDto_1 = require("../DTO\u00B4S/UserDto");
@@ -20,6 +21,7 @@ const Auth_guard_1 = require("../Guard/Auth.guard");
 const Roles_guard_1 = require("../Guard/Roles.guard");
 const Roles_decorator_1 = require("../Roles/Roles.decorator");
 const Roles_enum_1 = require("../Enum/Roles.enum");
+const swagger_1 = require("@nestjs/swagger");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -37,13 +39,43 @@ let UserController = class UserController {
         return this.userService.getNewUser(us);
     }
     getPutUsers(id, userdto) {
-        return this.userService.getPutUsers(id, userdto);
+        try {
+            return this.userService.getPutUsers(id, userdto);
+        }
+        catch (error) {
+            if (error.message === `id no encontrado`) {
+                throw new common_1.NotFoundException(error.message);
+            }
+            else {
+                throw new common_1.HttpException("Error inesperado", common_1.HttpStatus.CONFLICT);
+            }
+        }
     }
     deleteUser(id) {
-        return this.userService.deleteUser(id);
+        try {
+            return this.userService.deleteUser(id);
+        }
+        catch (error) {
+            if (error.message === `id no encontrado`) {
+                throw new common_1.NotFoundException(error.message);
+            }
+            else {
+                throw new common_1.HttpException("Error inesperado", common_1.HttpStatus.CONFLICT);
+            }
+        }
     }
     getUserbyId(id) {
-        return this.userService.getUserbyId(id);
+        try {
+            return this.userService.getUserbyId(id);
+        }
+        catch (error) {
+            if (error.message === "Usuario inexistente") {
+                throw new common_1.NotFoundException(error.message);
+            }
+            else {
+                throw new common_1.HttpException("Error inesperado", common_1.HttpStatus.CONFLICT);
+            }
+        }
     }
 };
 exports.UserController = UserController;
@@ -52,6 +84,7 @@ __decorate([
     (0, common_1.Get)(),
     (0, Roles_decorator_1.Roles)(Roles_enum_1.Rol.admin),
     (0, common_1.UseGuards)(Auth_guard_1.AuthGuard, Roles_guard_1.RolesGuard),
+    openapi.ApiResponse({ status: 200, type: [Object] }),
     __param(0, (0, common_1.Query)("page")),
     __param(1, (0, common_1.Query)("limit")),
     __metadata("design:type", Function),
@@ -60,6 +93,7 @@ __decorate([
 ], UserController.prototype, "getUsers", null);
 __decorate([
     (0, common_1.Get)("auth/user"),
+    openapi.ApiResponse({ status: 200, type: String }),
     __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -68,6 +102,7 @@ __decorate([
 __decorate([
     (0, common_1.HttpCode)(201),
     (0, common_1.Post)(),
+    openapi.ApiResponse({ status: 201, type: require("../Entities/Users/Users.entity").User }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -76,6 +111,7 @@ __decorate([
 __decorate([
     (0, common_1.HttpCode)(201),
     (0, common_1.Post)("newUser"),
+    openapi.ApiResponse({ status: 201, type: Object }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [UserDto_1.CreateUserDto]),
@@ -85,6 +121,7 @@ __decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.Put)(":id"),
     (0, common_1.UseGuards)(Auth_guard_1.AuthGuard),
+    openapi.ApiResponse({ status: 200, type: String }),
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -95,6 +132,7 @@ __decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.Delete)(":id"),
     (0, common_1.UseGuards)(Auth_guard_1.AuthGuard),
+    openapi.ApiResponse({ status: 200, type: String }),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -104,12 +142,14 @@ __decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(":id"),
     (0, common_1.UseGuards)(Auth_guard_1.AuthGuard),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "getUserbyId", null);
 exports.UserController = UserController = __decorate([
+    (0, swagger_1.ApiTags)("User"),
     (0, common_1.Controller)("users"),
     __metadata("design:paramtypes", [user_service_1.UserService])
 ], UserController);
