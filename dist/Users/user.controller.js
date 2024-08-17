@@ -38,9 +38,9 @@ let UserController = class UserController {
     getPostUsers(us) {
         return this.userService.getNewUser(us);
     }
-    getPutUsers(id, userdto) {
+    async getPutUsers(id, userdto) {
         try {
-            return this.userService.getPutUsers(id, userdto);
+            return await this.userService.getPutUsers(id, userdto);
         }
         catch (error) {
             if (error.message === `id no encontrado`) {
@@ -51,9 +51,9 @@ let UserController = class UserController {
             }
         }
     }
-    deleteUser(id) {
+    async deleteUser(id) {
         try {
-            return this.userService.deleteUser(id);
+            return await this.userService.deleteUser(id);
         }
         catch (error) {
             if (error.message === `id no encontrado`) {
@@ -64,9 +64,9 @@ let UserController = class UserController {
             }
         }
     }
-    getUserbyId(id) {
+    async getUserbyId(id) {
         try {
-            return this.userService.getUserbyId(id);
+            return await this.userService.getUserbyId(id);
         }
         catch (error) {
             if (error.message === "Usuario inexistente") {
@@ -80,6 +80,7 @@ let UserController = class UserController {
 };
 exports.UserController = UserController;
 __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(),
     (0, Roles_decorator_1.Roles)(Roles_enum_1.Rol.admin),
@@ -118,6 +119,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "getPostUsers", null);
 __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.HttpCode)(200),
     (0, common_1.Put)(":id"),
     (0, common_1.UseGuards)(Auth_guard_1.AuthGuard),
@@ -126,9 +128,10 @@ __decorate([
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, UserDto_1.CreateUserDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], UserController.prototype, "getPutUsers", null);
 __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.HttpCode)(200),
     (0, common_1.Delete)(":id"),
     (0, common_1.UseGuards)(Auth_guard_1.AuthGuard),
@@ -136,9 +139,10 @@ __decorate([
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], UserController.prototype, "deleteUser", null);
 __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(":id"),
     (0, common_1.UseGuards)(Auth_guard_1.AuthGuard),
@@ -146,7 +150,7 @@ __decorate([
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], UserController.prototype, "getUserbyId", null);
 exports.UserController = UserController = __decorate([
     (0, swagger_1.ApiTags)("User"),

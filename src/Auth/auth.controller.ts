@@ -13,9 +13,9 @@ export class AuthController {
     constructor( private readonly authservice: AuthService){}
     
     @Post("signIn")
-    singIn(@Body() Login : CredentialDto){
+  async  singIn(@Body() Login : CredentialDto){
         try{
-            return this.authservice.SingIn(Login);
+            return await this.authservice.SingIn(Login);
         }catch(error){
             if(error.message ==="Usuario no registrado"){
                 throw new NotFoundException("Usuario no registrado")
@@ -30,9 +30,9 @@ export class AuthController {
         
     }   
     @Post("singUp")
-    singUp (@Body() Register: CreateUserDto){
+   async singUp (@Body() Register: CreateUserDto){
      try{
-        return this.authservice.SingUp(Register)
+        return await this.authservice.SingUp(Register)
      }catch(error){
         if(error.message === "Las contraseñas deben coincidir"){
             throw new HttpException(error.message , HttpStatus.BAD_REQUEST)

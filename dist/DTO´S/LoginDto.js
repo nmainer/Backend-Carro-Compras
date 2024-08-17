@@ -18,7 +18,7 @@ exports.CredentialDto = CredentialDto;
 __decorate([
     (0, swagger_1.ApiProperty)({
         description: "Aqui va el email regitrado",
-        example: "mail@mail.com"
+        example: "mail.mail@gmail.com"
     }),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsEmail)(),
@@ -27,7 +27,7 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiProperty)({
         description: "Aqui va la contraseña registrada",
-        example: "1234LU&/$"
+        example: "Nic@1990"
     }),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),

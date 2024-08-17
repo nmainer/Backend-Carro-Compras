@@ -30,9 +30,9 @@ let ProductsController = class ProductsController {
     getProduct(page = 1, limit = 5) {
         return this.productsService.getProducts(page, limit);
     }
-    getPost(product) {
+    async getPost(product) {
         try {
-            return this.productsService.getNewProduct(product);
+            return await this.productsService.getNewProduct(product);
         }
         catch (error) {
             if (error.message === `el producto ya existe`) {
@@ -43,10 +43,10 @@ let ProductsController = class ProductsController {
             }
         }
     }
-    getPutproducts(id, product) {
+    async getPutproducts(id, product) {
         const productId = id;
         try {
-            return this.productsService.putProduct(productId, product);
+            return await this.productsService.putProduct(productId, product);
         }
         catch (error) {
             if (error.message === `id no encontrado`) {
@@ -57,10 +57,10 @@ let ProductsController = class ProductsController {
             }
         }
     }
-    deleteProducts(id) {
+    async deleteProducts(id) {
         const productId = id;
         try {
-            return this.productsService.deleteProduct(productId);
+            return await this.productsService.deleteProduct(productId);
         }
         catch (error) {
             if (error.message === `id no encontrado`) {
@@ -71,10 +71,10 @@ let ProductsController = class ProductsController {
             }
         }
     }
-    getProductbyId(id) {
+    async getProductbyId(id) {
         const productId = id;
         try {
-            return this.productsService.productId(productId);
+            return await this.productsService.productId(productId);
         }
         catch (error) {
             if (error.message === `id no encontrado`) {
@@ -88,6 +88,7 @@ let ProductsController = class ProductsController {
 };
 exports.ProductsController = ProductsController;
 __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(),
     openapi.ApiResponse({ status: 200, type: [require("../Entities/Products/products.entity").Product] }),
@@ -98,6 +99,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ProductsController.prototype, "getProduct", null);
 __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.HttpCode)(201),
     (0, common_1.Post)("seeder"),
     (0, common_1.UseGuards)(Auth_guard_1.AuthGuard),
@@ -105,9 +107,10 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [ProductsDto_1.ProductsDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ProductsController.prototype, "getPost", null);
 __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.HttpCode)(200),
     (0, common_1.Put)(":id"),
     (0, Roles_decorator_1.Roles)(Roles_enum_1.Rol.admin),
@@ -117,9 +120,10 @@ __decorate([
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, products_entity_1.Product]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ProductsController.prototype, "getPutproducts", null);
 __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.HttpCode)(200),
     (0, common_1.Delete)(":id"),
     (0, common_1.UseGuards)(Auth_guard_1.AuthGuard),
@@ -127,9 +131,10 @@ __decorate([
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ProductsController.prototype, "deleteProducts", null);
 __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(":id"),
     (0, common_1.UseGuards)(Auth_guard_1.AuthGuard),
@@ -137,7 +142,7 @@ __decorate([
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ProductsController.prototype, "getProductbyId", null);
 exports.ProductsController = ProductsController = __decorate([
     (0, swagger_1.ApiTags)("Products"),

@@ -6,7 +6,7 @@ import { ProductsDto } from "../DTO´S/ProductsDto";
 import { RolesGuard } from "../Guard/Roles.guard";
 import { Roles } from "../Roles/Roles.decorator";
 import { Rol } from "../Enum/Roles.enum";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 
 
@@ -15,20 +15,21 @@ import { ApiTags } from "@nestjs/swagger";
 @Controller("products")
 export class ProductsController{
     constructor(private readonly productsService : ProductsService){}
-
+    @ApiBearerAuth()
     @HttpCode(200)
     @Get()
     getProduct(@Query("page") page : number = 1 , @Query("limit") limit : number =5){
         return this.productsService.getProducts(page ,limit);
     }
     
+    @ApiBearerAuth()
     @HttpCode(201)
     @Post("seeder")
     @UseGuards(AuthGuard)
-    getPost(@Body() product:ProductsDto){
+    async getPost(@Body() product:ProductsDto){
 
         try{
-            return this.productsService.getNewProduct(product);
+            return await this.productsService.getNewProduct(product);
         }catch(error){
             if(error.message === `el producto ya existe`){
                 throw new ConflictException(error.message)
@@ -38,15 +39,15 @@ export class ProductsController{
         }
         
     }
-    
+    @ApiBearerAuth()
     @HttpCode(200)
     @Put(":id")
     @Roles(Rol.admin)
     @UseGuards(AuthGuard ,RolesGuard)
-    getPutproducts(@Param("id" ,ParseUUIDPipe) id : string , @Body() product: Product){
+    async getPutproducts(@Param("id" ,ParseUUIDPipe) id : string , @Body() product: Product){
         const productId = id;
         try{
-            return this.productsService.putProduct(productId , product);
+            return await  this.productsService.putProduct(productId , product);
         }catch(error){
             if(error.message === `id no encontrado`){
                 throw new ConflictException(error.message)
@@ -56,14 +57,14 @@ export class ProductsController{
         }
        
     }
-    
+    @ApiBearerAuth()
     @HttpCode(200)
     @Delete(":id")
     @UseGuards(AuthGuard)
-    deleteProducts(@Param("id" ,ParseUUIDPipe) id : string){
+    async deleteProducts(@Param("id" ,ParseUUIDPipe) id : string){
      const productId = id;
      try{
-        return this.productsService.deleteProduct(productId)
+        return await this.productsService.deleteProduct(productId)
      } catch (error){
         if(error.message === `id no encontrado`){
             throw new ConflictException(error.message)
@@ -73,14 +74,14 @@ export class ProductsController{
     }
 }
 
-
+    @ApiBearerAuth()
     @HttpCode(200)
     @Get(":id")
     @UseGuards(AuthGuard)
-    getProductbyId(@Param("id" , ParseUUIDPipe) id: string){
+    async getProductbyId(@Param("id" , ParseUUIDPipe) id: string){
       const productId = id;
       try{
-        return this.productsService.productId(productId);
+        return await this.productsService.productId(productId);
       }catch(error){
         if(error.message ===`id no encontrado`){
             throw new ConflictException(error.message)

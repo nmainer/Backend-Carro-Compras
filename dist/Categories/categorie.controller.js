@@ -25,9 +25,9 @@ let CategoryController = class CategoryController {
     getCategories() {
         return this.categoryService.getCategories();
     }
-    addCategories(category) {
+    async addCategories(category) {
         try {
-            return this.categoryService.addCategories(category);
+            return await this.categoryService.addCategories(category);
         }
         catch (error) {
             if (error.message === "Ya existe esta categoria") {

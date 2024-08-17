@@ -16,9 +16,9 @@ return this.categoryService.getCategories();
 
 
 @Post("seeder")
-addCategories(@Body() category : ArrayCategoryDTO) : Promise<Category[]>{
+async addCategories(@Body() category : ArrayCategoryDTO) : Promise<Category[]>{
 try{
-    return this.categoryService.addCategories(category)
+    return await this.categoryService.addCategories(category)
 }catch (error){
     if(error.message === "Ya existe esta categoria"){
         throw new HttpException(error.message , HttpStatus.BAD_REQUEST)

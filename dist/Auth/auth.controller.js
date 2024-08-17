@@ -23,9 +23,9 @@ let AuthController = class AuthController {
     constructor(authservice) {
         this.authservice = authservice;
     }
-    singIn(Login) {
+    async singIn(Login) {
         try {
-            return this.authservice.SingIn(Login);
+            return await this.authservice.SingIn(Login);
         }
         catch (error) {
             if (error.message === "Usuario no registrado") {
@@ -42,9 +42,9 @@ let AuthController = class AuthController {
             }
         }
     }
-    singUp(Register) {
+    async singUp(Register) {
         try {
-            return this.authservice.SingUp(Register);
+            return await this.authservice.SingUp(Register);
         }
         catch (error) {
             if (error.message === "Las contraseñas deben coincidir") {
@@ -69,7 +69,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [LoginDto_1.CredentialDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], AuthController.prototype, "singIn", null);
 __decorate([
     (0, common_1.Post)("singUp"),
@@ -77,7 +77,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [UserDto_1.CreateUserDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], AuthController.prototype, "singUp", null);
 exports.AuthController = AuthController = __decorate([
     (0, swagger_1.ApiTags)("Auth"),

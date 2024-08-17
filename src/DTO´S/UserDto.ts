@@ -15,12 +15,12 @@ export class CreateUserDto {
 email:string 
 
 @ApiProperty({
-    description:"Debe ir un nombre identificatorio",
+    description:"Debe ir un nombre identificatorio personal",
     example: "Nicolas"
 })
 @IsString()
 @IsNotEmpty({message: "La opcion name no debe estar vacia"})
-@Length(3,80 , {message: "la propieadad name debe contener un minimo de 3 hasta 80 caracteres"})
+@Length(3,80 , {message: "la propiedad name debe contener un minimo de 3 hasta 80 caracteres"})
 name:string
 
 
@@ -31,7 +31,7 @@ name:string
 })
 @ApiProperty({
     description: "aqui se coloca el password deseado cumpliendo con los requisitos exigidos" ,
-    example:  "LUul1234%&/$#"
+    example:  "Nic@1990"
 })
 password: string
 
@@ -40,7 +40,7 @@ password: string
 @IsString()
 @ApiProperty({
     description:"aqui se debe repetir misma contraseña",
-    example:"LUul1234%&/$#"
+    example:"Nic@1990"
 })
 confirmPassword: string
 

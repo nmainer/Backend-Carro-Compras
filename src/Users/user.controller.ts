@@ -6,7 +6,7 @@ import { Request } from "express";
 import { RolesGuard } from "../Guard/Roles.guard";
 import { Roles } from "../Roles/Roles.decorator";
 import { Rol } from "../Enum/Roles.enum";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 
 
@@ -17,7 +17,7 @@ import { ApiTags } from "@nestjs/swagger";
 export class UserController{
     constructor( private readonly userService : UserService){}
 
-    
+    @ApiBearerAuth()
     @HttpCode(200)
     @Get()
     @Roles(Rol.admin)
@@ -43,12 +43,13 @@ export class UserController{
       return this.userService.getNewUser(us)
     }
     
+    @ApiBearerAuth()
     @HttpCode(200)
     @Put(":id")
     @UseGuards(AuthGuard)
-    getPutUsers(@Param("id" , ParseUUIDPipe) id : string , @Body() userdto: CreateUserDto){
+   async getPutUsers(@Param("id" , ParseUUIDPipe) id : string , @Body() userdto: CreateUserDto){
      try{
-      return this.userService.getPutUsers(id , userdto)
+      return await  this.userService.getPutUsers(id , userdto)
      }catch(error){
       if(error.message === `id no encontrado`){
         throw new NotFoundException(error.message)
@@ -57,13 +58,14 @@ export class UserController{
       }
     }
   }
-    
+
+    @ApiBearerAuth()
     @HttpCode(200)
     @Delete(":id")
     @UseGuards(AuthGuard)
-    deleteUser(@Param("id") id : string){
+    async deleteUser(@Param("id") id : string){
       try{
-        return this.userService.deleteUser(id);
+        return await  this.userService.deleteUser(id);
       }catch(error){
         if(error.message === `id no encontrado`){
           throw new NotFoundException(error.message)
@@ -74,13 +76,14 @@ export class UserController{
      
     }
   
+    @ApiBearerAuth()
     @HttpCode(200)
     @Get(":id")
     @UseGuards(AuthGuard)
-    getUserbyId(@Param("id") id : string){
+    async getUserbyId(@Param("id") id : string){
   
   try{
-    return this.userService.getUserbyId(id);
+    return await this.userService.getUserbyId(id);
   }catch(error){
     if(error.message === "Usuario inexistente"){
       throw new NotFoundException(error.message)

@@ -17,9 +17,10 @@ async function bootstrap() {
     const sweaggerConfig = new swagger_1.DocumentBuilder()
         .setTitle("Demo Nest")
         .setDescription("Api generada con Nest referida al modulo N° 4 de la carrera Full-Stack")
-        .setVersion("1.0")
+        .setVersion("^7.4.0")
+        .addBearerAuth()
         .build();
-    const document = swagger_1.SwaggerModule.createDocument(app, sweaggerConfig);
+    const document = swagger_1.SwaggerModule.createDocument(app, sweaggerConfig, { deepScanRoutes: true });
     swagger_1.SwaggerModule.setup("api", app, document);
     await app.listen(3000);
 }

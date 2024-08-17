@@ -2,19 +2,19 @@ import { Body, Controller, Get, Param, Post ,ParseUUIDPipe, UseGuards, BadReques
 import { CreateOrderDto } from "../DTO´S/OrderDTO";
 import { OrderService } from "./Order.services";
 import { AuthGuard } from "../Guard/Auth.guard";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 
 @ApiTags("Orders")
 @Controller("orders")
 export class OrderController{
     constructor(private readonly orderService : OrderService){}
-
+@ApiBearerAuth()
 @Post()
 @UseGuards(AuthGuard)
-addOrder(@Body() order : CreateOrderDto){
+async addOrder(@Body() order : CreateOrderDto){
     try{
-        return this.orderService.addOrder(order)
+        return await this.orderService.addOrder(order)
     }catch(error){
         
             if (error.message.includes('no poseen stock')) {
@@ -27,6 +27,7 @@ addOrder(@Body() order : CreateOrderDto){
     }
 }
 
+@ApiBearerAuth()
 @Get(":id")
 @UseGuards(AuthGuard)
 getOrder(@Param("id" , ParseUUIDPipe) id:string){

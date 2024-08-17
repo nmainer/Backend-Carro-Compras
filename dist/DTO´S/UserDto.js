@@ -26,12 +26,12 @@ __decorate([
 ], CreateUserDto.prototype, "email", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
-        description: "Debe ir un nombre identificatorio",
+        description: "Debe ir un nombre identificatorio personal",
         example: "Nicolas"
     }),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)({ message: "La opcion name no debe estar vacia" }),
-    (0, class_validator_1.Length)(3, 80, { message: "la propieadad name debe contener un minimo de 3 hasta 80 caracteres" }),
+    (0, class_validator_1.Length)(3, 80, { message: "la propiedad name debe contener un minimo de 3 hasta 80 caracteres" }),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "name", void 0);
 __decorate([
@@ -42,7 +42,7 @@ __decorate([
     }),
     (0, swagger_1.ApiProperty)({
         description: "aqui se coloca el password deseado cumpliendo con los requisitos exigidos",
-        example: "LUul1234%&/$#"
+        example: "Nic@1990"
     }),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "password", void 0);
@@ -50,7 +50,7 @@ __decorate([
     (0, class_validator_1.IsString)(),
     (0, swagger_1.ApiProperty)({
         description: "aqui se debe repetir misma contraseña",
-        example: "LUul1234%&/$#"
+        example: "Nic@1990"
     }),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "confirmPassword", void 0);

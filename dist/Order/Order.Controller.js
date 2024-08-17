@@ -22,9 +22,9 @@ let OrderController = class OrderController {
     constructor(orderService) {
         this.orderService = orderService;
     }
-    addOrder(order) {
+    async addOrder(order) {
         try {
-            return this.orderService.addOrder(order);
+            return await this.orderService.addOrder(order);
         }
         catch (error) {
             if (error.message.includes('no poseen stock')) {
@@ -44,14 +44,16 @@ let OrderController = class OrderController {
 };
 exports.OrderController = OrderController;
 __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Post)(),
     (0, common_1.UseGuards)(Auth_guard_1.AuthGuard),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [OrderDTO_1.CreateOrderDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], OrderController.prototype, "addOrder", null);
 __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Get)(":id"),
     (0, common_1.UseGuards)(Auth_guard_1.AuthGuard),
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
