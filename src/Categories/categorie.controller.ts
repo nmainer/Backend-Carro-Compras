@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post } from "@nestjs/common";
+import { Body, ConflictException, Controller, Get, HttpException, HttpStatus, Post } from "@nestjs/common";
 import { CategoryService } from "./categorie.service";
 import { Category } from "../Entities/Categories/categories.entity";
 import { ArrayCategoryDTO } from "../DTO´S/categoryDTO";
@@ -16,12 +16,12 @@ return this.categoryService.getCategories();
 
 
 @Post("seeder")
-async addCategories(@Body() category : ArrayCategoryDTO) : Promise<Category[]>{
+async addCategories(@Body() category : ArrayCategoryDTO) : Promise<string>{
 try{
     return await this.categoryService.addCategories(category)
 }catch (error){
-    if(error.message === "Ya existe esta categoria"){
-        throw new HttpException(error.message , HttpStatus.BAD_REQUEST)
+    if(error.message.includes(`Ya existen las siguientes categorías:`)){
+        throw new ConflictException(error.message)
     }
 }
 

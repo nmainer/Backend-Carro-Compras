@@ -5,5 +5,5 @@ export declare class CategoryService {
     private categoryRepository;
     constructor(categoryRepository: Repository<Category>);
     getCategories(): Promise<Category[]>;
-    addCategories(category: ArrayCategoryDTO): Promise<Category[]>;
+    addCategories(category: ArrayCategoryDTO): Promise<string>;
 }

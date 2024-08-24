@@ -5,8 +5,8 @@ import { IsEmail, IsNotEmpty, IsString } from "class-validator";
 export class CredentialDto {
 
 @ApiProperty({
-    description:"Aqui va el email regitrado",
-    example:"mail.mail@gmail.com"
+    description: "Aqui debe colocarse el email registrado",
+    example: "mail.mail@gmail.com"
 })
 @IsNotEmpty()
 @IsEmail()

@@ -31,7 +31,7 @@ export class ProductsController{
         try{
             return await this.productsService.getNewProduct(product);
         }catch(error){
-            if(error.message === `el producto ya existe`){
+            if(error.message.includes(`Ya existen los sig productos:`)){
                 throw new ConflictException(error.message)
             } else {
                 throw new HttpException("Error inesperado", HttpStatus.CONFLICT)

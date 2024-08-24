@@ -54,7 +54,6 @@ let UsersRepository = class UsersRepository {
             id: newUser.id,
             name: newUser.name,
             email: newUser.email,
-            password: newUser.password
         };
     }
     async getUserByEmail(email) {

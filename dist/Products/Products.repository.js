@@ -33,6 +33,7 @@ let ProductsRepository = class ProductsRepository {
         return valoresprod;
     }
     async getNewProduct(product) {
+        const productsExist = [];
         for (const produ of product.products) {
             const categoria = await this.repositoryCategory.findOne({ where: { name: produ.category } });
             if (categoria) {
@@ -47,9 +48,12 @@ let ProductsRepository = class ProductsRepository {
                     await this.repositoryProduct.save(newProduct);
                 }
                 else {
-                    throw new Error(`el producto ya existe`);
+                    productsExist.push(productExist.name);
                 }
             }
+        }
+        if (productsExist.length > 0) {
+            throw new Error(`Ya existen los sig productos:${productsExist.join(",")}`);
         }
         return `producto/s creado/s`;
     }

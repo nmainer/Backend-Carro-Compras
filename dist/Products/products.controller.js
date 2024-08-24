@@ -35,7 +35,7 @@ let ProductsController = class ProductsController {
             return await this.productsService.getNewProduct(product);
         }
         catch (error) {
-            if (error.message === `el producto ya existe`) {
+            if (error.message.includes(`Ya existen los sig productos:`)) {
                 throw new common_1.ConflictException(error.message);
             }
             else {

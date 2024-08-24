@@ -1,6 +1,7 @@
 
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNumber, IsOptional, IsString} from "class-validator";
+import { Type } from "class-transformer";
+import { IsArray, IsNumber, IsOptional, IsString, ValidateNested} from "class-validator";
 
 
  class Product {
@@ -28,8 +29,10 @@ import { IsNumber, IsOptional, IsString} from "class-validator";
 
 
 export class ProductsDto {
+  @IsArray()
     @ApiProperty({
         description: "Aqui se coloca el array de objetos de productos ",
+        type:[Product],
         example: [
             {
               name: "Iphone 15",
@@ -53,6 +56,8 @@ export class ProductsDto {
               category: "smartphone"
             }]
     })
+    @ValidateNested({each:true})
+    @Type(()=>Product)
     products: Product[]
 }
 

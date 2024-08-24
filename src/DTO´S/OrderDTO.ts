@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { ArrayMinSize, IsArray, IsDate, IsNotEmpty, IsNumber, IsObject, IsString, isUUID, IsUUID,  ValidateNested } from "class-validator";
+import { ArrayMinSize, IsArray, IsNotEmpty, IsUUID,  ValidateNested } from "class-validator";
 
 
 class ArrayProducts {

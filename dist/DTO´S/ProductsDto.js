@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductsDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
+const class_transformer_1 = require("class-transformer");
 const class_validator_1 = require("class-validator");
 class Product {
 }
@@ -41,8 +42,10 @@ class ProductsDto {
 }
 exports.ProductsDto = ProductsDto;
 __decorate([
+    (0, class_validator_1.IsArray)(),
     (0, swagger_1.ApiProperty)({
         description: "Aqui se coloca el array de objetos de productos ",
+        type: [Product],
         example: [
             {
                 name: "Iphone 15",
@@ -67,6 +70,8 @@ __decorate([
             }
         ]
     }),
+    (0, class_validator_1.ValidateNested)({ each: true }),
+    (0, class_transformer_1.Type)(() => Product),
     __metadata("design:type", Array)
 ], ProductsDto.prototype, "products", void 0);
 //# sourceMappingURL=ProductsDto.js.map

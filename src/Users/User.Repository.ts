@@ -52,7 +52,6 @@ async getNewUser(us:CreateUserDto): Promise<Partial<User>>{
     id : newUser.id,
     name:newUser.name,
     email:newUser.email,
-    password:newUser.password
   }
 }
 

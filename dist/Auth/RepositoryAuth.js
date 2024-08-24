@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RespositoryAuth = void 0;
 const User_Repository_1 = require("../Users/User.Repository");
 const common_1 = require("@nestjs/common");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt_1 = require("@nestjs/jwt");
 let RespositoryAuth = class RespositoryAuth {
     constructor(userService, jwtService) {

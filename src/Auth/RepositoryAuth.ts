@@ -1,7 +1,7 @@
 import { UsersRepository } from "../Users/User.Repository";
 import { CredentialDto} from "../DTO´S/LoginDto";
 import { BadRequestException, HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import * as bcrypt from "bcrypt";
+import * as bcrypt from "bcryptjs";
 import { CreateUserDto } from "../DTO´S/UserDto";
 import { JwtService } from "@nestjs/jwt";
 import { User } from "src/Entities/Users/Users.entity";

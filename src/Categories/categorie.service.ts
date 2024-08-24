@@ -16,17 +16,20 @@ export class CategoryService {
     }
 
 
-   async addCategories(category:ArrayCategoryDTO) : Promise<Category[]> {
-      let valor;
+   async addCategories(category:ArrayCategoryDTO) : Promise<string> {
+    const existingCategories: string[] = [];
       for (const categoryDtO of category.categorias){
 
         const categoryExist = await this.categoryRepository.findOne({where: {name: categoryDtO.name}});
         if(!categoryExist){
-        valor =  await  this.categoryRepository.save(categoryDtO)
+        await  this.categoryRepository.save(categoryDtO)
         } else{
-          throw new Error ("Ya existe esta categoria")
-        }
+          existingCategories.push(categoryDtO.name) 
+        } 
       }
-        return valor;
+      if( existingCategories.length>0){
+        throw new Error (`Ya existen las siguientes categorías: ${existingCategories.join(",")}`)
+      }
+        return `Las categorias fueron cargadas`;
     }
 }

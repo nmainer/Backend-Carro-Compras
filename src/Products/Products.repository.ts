@@ -26,7 +26,7 @@ async getProducts(page: number , limit:number): Promise<Product[]>{
 }
 
 async getNewProduct(product:ProductsDto) : Promise<string> {
-
+const productsExist : string[] = [];
   
   for (const produ of product.products) {
 
@@ -46,13 +46,16 @@ async getNewProduct(product:ProductsDto) : Promise<string> {
             newProduct.category = categoria
 
         await this.repositoryProduct.save(newProduct);
-       
-        
-        } else {
-            throw new Error(`el producto ya existe`)
         }
+        else {
+            productsExist.push(productExist.name);
+        }
+       
     }
   }
+  if(productsExist.length>0){
+    throw new Error(`Ya existen los sig productos:${productsExist.join(",")}`)
+}
   return `producto/s creado/s`
 }
 

@@ -15,7 +15,7 @@ const config ={
     logging:false,
     entities: [ __dirname + '/../**/*.entity{.js,.ts}'],
     migrations: ["dist/migrations/*{.ts,.js}"],
-    synchronize: false,
+    synchronize: true,
 };
 
 export const dataSource = new DataSource(config as DataSourceOptions);
