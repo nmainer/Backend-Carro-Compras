@@ -16,7 +16,7 @@ const config = {
     logging: false,
     entities: [__dirname + '/../**/*.entity{.js,.ts}'],
     migrations: ["dist/migrations/*{.ts,.js}"],
-    synchronize: true,
+    synchronize: false,
 };
 exports.dataSource = new typeorm_1.DataSource(config);
 exports.default = (0, config_1.registerAs)('typeorm', () => config);

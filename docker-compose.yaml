@@ -16,8 +16,7 @@ services:
     volumes: 
       - pgdata:/var/lib/postgresql/data
     env_file:
-      - .env.development
-
+      - .env.postgresdb
 volumes:
   pgdata:
  
