@@ -9,6 +9,6 @@ export declare class UsersRepository {
     getUserId(id: string): Promise<Omit<User2, "admin"> | object>;
     getNewUser(us: CreateUserDto): Promise<Partial<User>>;
     getUserByEmail(email: string): Promise<User>;
-    getPutUser(id: string, userdto: CreateUserDto): Promise<string>;
+    getPutUser(id: string, userdto: Partial<CreateUserDto>): Promise<string>;
     deleteUser(id: string): Promise<string>;
 }

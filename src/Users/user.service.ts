@@ -25,7 +25,7 @@ export class UserService{
     async getByEmail(email:string){
         return this.userRepository.getUserByEmail(email)
     }
-    async getPutUsers(id:string, user : CreateUserDto) {
+    async getPutUsers(id:string, user : Partial<CreateUserDto>) {
         return this.userRepository.getPutUser(id,user)
     }
     async deleteUser(id:string) {

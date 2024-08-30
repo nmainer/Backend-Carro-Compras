@@ -24,8 +24,18 @@ let ControllerFile = class ControllerFile {
         this.serviceFile = serviceFile;
     }
     async addFile(id, file) {
-        console.log(file);
-        return this.serviceFile.addFile(id, file);
+        try {
+            return await this.serviceFile.addFile(id, file);
+        }
+        catch (error) {
+            if (error instanceof common_1.HttpException) {
+                const status = error.getStatus();
+                return {
+                    statusCode: status,
+                    message: error.message
+                };
+            }
+        }
     }
 };
 exports.ControllerFile = ControllerFile;

@@ -1,9 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { ConflictException, HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Product} from "../Entities/Products/products.entity";
 import { Repository} from "typeorm";
 import { Category } from "../Entities/Categories/categories.entity";
-import { ProductsDto } from "../DTO´S/ProductsDto";
+import {ProductsDto } from "../DTO´S/ProductsDto";
 
 
 
@@ -54,7 +54,7 @@ const productsExist : string[] = [];
     }
   }
   if(productsExist.length>0){
-    throw new Error(`Ya existen los sig productos:${productsExist.join(",")}`)
+    throw new ConflictException(`Ya existen los sig productos:${productsExist.join(",")}`)
 }
   return `producto/s creado/s`
 }
@@ -62,19 +62,21 @@ const productsExist : string[] = [];
 
 
 
-async putProduct(id:string , product: Product):Promise<string> {
+async putProduct(id:string , product: Partial<Product> ):Promise<string> {
 
     const productnew = await this.repositoryProduct.findOneBy({id});
 
 
     if(productnew){
-        const actualizer = {...productnew ,...product}
+        const actualizer = {...productnew , ...product };
 
-        await this.repositoryProduct.save(actualizer)
+        await this.repositoryProduct.save(actualizer);
    
         return `producto con N° id ${id} fue modificado`
+    } else {
+        throw new ConflictException("id no encontrado")
     }
-    throw new Error(`id no encontrado`) 
+    
 }
 
 
@@ -87,14 +89,18 @@ async deleteProduct(id:string):Promise<string> {
 
         return ` el producto con id N° ${id} fue eliminado`
     }
-    throw new Error(`id no encontrado`) 
+    else {
+        throw new ConflictException("id no encontrado")
+    }
+   
 }
 
 async productId(id:string): Promise<Product> {
-   const productId =  this.repositoryProduct.findOne({where:{id}});
+   const productId = await this.repositoryProduct.findOne({where:{id}});
    if(productId){
     return productId;
-   }
-   throw new Error(`id no encontrado`) 
+   } else {
+    throw new ConflictException("producto no encontrado")
+   } 
 }
 }

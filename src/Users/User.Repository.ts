@@ -1,9 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { User2 } from "./interfaces.user";
 import { CreateUserDto} from "../DTO´S/UserDto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "../Entities/Users/Users.entity";
 import { Repository } from "typeorm";
+;
 
 
 
@@ -40,7 +41,7 @@ export class UsersRepository{
     orders:us.orders
     }
   } else {
-     throw new Error ("Usuario inexistente")
+    throw new NotFoundException("Usuario inexistente");
  }
 }
 
@@ -61,7 +62,7 @@ async getUserByEmail(email:string) {
   return userByEmail ; 
 }
 
- async getPutUser(id:string, userdto: CreateUserDto) {
+ async getPutUser(id:string, userdto: Partial<CreateUserDto>) {
   const userid = await this.repositoryUser.findOne({where:{id}})
   if (userid){
     const users = {...userid,...userdto};
@@ -69,8 +70,10 @@ async getUserByEmail(email:string) {
     
     return `usuario con id N°${users.id} fue modificado`
     
+  } else {
+    throw new NotFoundException("id no encontrado")
   }
-  throw new Error(`id no encontrado`);
+  
 }
 
 async deleteUser(id:string) {
@@ -80,8 +83,8 @@ async deleteUser(id:string) {
    
    return `el registro ${valor} fue eliminado`
   }
-  throw new Error(`id no encontrado`) 
-}
+  throw new NotFoundException(`id no encontrado`);
+};
 
 }
 

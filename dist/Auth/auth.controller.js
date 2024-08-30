@@ -28,14 +28,23 @@ let AuthController = class AuthController {
             return await this.authservice.SingIn(Login);
         }
         catch (error) {
-            if (error.message === "Usuario no registrado") {
-                throw new common_1.NotFoundException("Usuario no registrado");
+            if (error instanceof common_1.NotFoundException) {
+                return {
+                    statusCode: 404,
+                    message: error.message
+                };
             }
-            else if (error.message === `Usuario y/o contraseña incorrecta/s`) {
-                throw new common_1.UnauthorizedException(`Usuario y/o contraseña incorrecta/s`);
+            else if (error instanceof common_1.UnauthorizedException) {
+                return {
+                    statusCode: 401,
+                    message: error.message
+                };
             }
-            else if (error.message === "faltan datos") {
-                throw new common_1.BadRequestException("faltan datos");
+            else if (error instanceof common_1.BadRequestException) {
+                return {
+                    statusCode: 400,
+                    message: error.message
+                };
             }
             else {
                 throw new common_1.HttpException("Error inesperado", common_1.HttpStatus.CONFLICT);
@@ -47,14 +56,12 @@ let AuthController = class AuthController {
             return await this.authservice.SingUp(Register);
         }
         catch (error) {
-            if (error.message === "Las contraseñas deben coincidir") {
-                throw new common_1.HttpException(error.message, common_1.HttpStatus.BAD_REQUEST);
-            }
-            else if (error.message === "el email actual ya se encuentra registrado") {
-                throw new common_1.HttpException(error.message, common_1.HttpStatus.BAD_REQUEST);
-            }
-            else if (error.message === "password no fue hasheado") {
-                throw new common_1.HttpException(error.message, common_1.HttpStatus.CONFLICT);
+            if (error instanceof common_1.HttpException) {
+                const status = error.getStatus();
+                return {
+                    statusCode: status,
+                    message: error.message
+                };
             }
             else {
                 throw new common_1.HttpException("Error en el registro", common_1.HttpStatus.BAD_REQUEST);
@@ -65,7 +72,7 @@ let AuthController = class AuthController {
 exports.AuthController = AuthController;
 __decorate([
     (0, common_1.Post)("signIn"),
-    openapi.ApiResponse({ status: 201 }),
+    openapi.ApiResponse({ status: 201, type: Object }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [LoginDto_1.CredentialDto]),
@@ -84,5 +91,4 @@ exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)("auth"),
     __metadata("design:paramtypes", [auth_service_1.AuthService])
 ], AuthController);
-;
 //# sourceMappingURL=auth.controller.js.map

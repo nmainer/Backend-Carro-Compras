@@ -36,7 +36,7 @@ let CategoryService = class CategoryService {
             }
         }
         if (existingCategories.length > 0) {
-            throw new Error(`Ya existen las siguientes categorías: ${existingCategories.join(",")}`);
+            throw new common_1.HttpException(`Ya existen las siguientes categorías: ${existingCategories.join(",")}`, common_1.HttpStatus.BAD_REQUEST);
         }
         return `Las categorias fueron cargadas`;
     }

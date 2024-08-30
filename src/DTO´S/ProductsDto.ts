@@ -4,7 +4,7 @@ import { Type } from "class-transformer";
 import { IsArray, IsNumber, IsOptional, IsString, ValidateNested} from "class-validator";
 
 
- class Product {
+  class ProductDTO {
 
   @IsString()
   @IsOptional()
@@ -32,7 +32,7 @@ export class ProductsDto {
   @IsArray()
     @ApiProperty({
         description: "Aqui se coloca el array de objetos de productos ",
-        type:[Product],
+        type:[ProductDTO],
         example: [
             {
               name: "Iphone 15",
@@ -57,8 +57,8 @@ export class ProductsDto {
             }]
     })
     @ValidateNested({each:true})
-    @Type(()=>Product)
-    products: Product[]
+    @Type(()=>ProductDTO)
+    products: ProductDTO[]
 }
 
 

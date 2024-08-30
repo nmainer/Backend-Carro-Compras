@@ -43,8 +43,12 @@ let UserController = class UserController {
             return await this.userService.getPutUsers(id, userdto);
         }
         catch (error) {
-            if (error.message === `id no encontrado`) {
-                throw new common_1.NotFoundException(error.message);
+            if (error instanceof common_1.NotFoundException) {
+                const status = error.getStatus();
+                return {
+                    statusCode: status,
+                    message: error.message
+                };
             }
             else {
                 throw new common_1.HttpException("Error inesperado", common_1.HttpStatus.CONFLICT);
@@ -56,8 +60,12 @@ let UserController = class UserController {
             return await this.userService.deleteUser(id);
         }
         catch (error) {
-            if (error.message === `id no encontrado`) {
-                throw new common_1.NotFoundException(error.message);
+            if (error instanceof common_1.NotFoundException) {
+                const status = error.getStatus();
+                return {
+                    statusCode: status,
+                    message: error.message
+                };
             }
             else {
                 throw new common_1.HttpException("Error inesperado", common_1.HttpStatus.CONFLICT);
@@ -69,14 +77,19 @@ let UserController = class UserController {
             return await this.userService.getUserbyId(id);
         }
         catch (error) {
-            if (error.message === "Usuario inexistente") {
-                throw new common_1.NotFoundException(error.message);
+            if (error instanceof common_1.NotFoundException) {
+                const status = error.getStatus();
+                return {
+                    statusCode: status,
+                    message: error.message
+                };
             }
             else {
                 throw new common_1.HttpException("Error inesperado", common_1.HttpStatus.CONFLICT);
             }
         }
     }
+    ;
 };
 exports.UserController = UserController;
 __decorate([
@@ -123,11 +136,11 @@ __decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.Put)(":id"),
     (0, common_1.UseGuards)(Auth_guard_1.AuthGuard),
-    openapi.ApiResponse({ status: 200, type: String }),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, UserDto_1.CreateUserDto]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getPutUsers", null);
 __decorate([
@@ -135,7 +148,7 @@ __decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.Delete)(":id"),
     (0, common_1.UseGuards)(Auth_guard_1.AuthGuard),
-    openapi.ApiResponse({ status: 200, type: String }),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

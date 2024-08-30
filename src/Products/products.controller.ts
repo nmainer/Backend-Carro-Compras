@@ -31,8 +31,12 @@ export class ProductsController{
         try{
             return await this.productsService.getNewProduct(product);
         }catch(error){
-            if(error.message.includes(`Ya existen los sig productos:`)){
-                throw new ConflictException(error.message)
+            if(error instanceof ConflictException){
+                const status= error.getStatus();
+                return {
+                    statusCode: status,
+                    message: error.message
+                }
             } else {
                 throw new HttpException("Error inesperado", HttpStatus.CONFLICT)
             }
@@ -43,14 +47,18 @@ export class ProductsController{
     @HttpCode(200)
     @Put(":id")
     @Roles(Rol.admin)
-    @UseGuards(AuthGuard ,RolesGuard)
-    async getPutproducts(@Param("id" ,ParseUUIDPipe) id : string , @Body() product: Product){
+    @UseGuards(AuthGuard , RolesGuard)
+    async getPutproducts(@Param("id" ,ParseUUIDPipe) id : string , @Body() product: Partial<Product> ){
         const productId = id;
         try{
             return await  this.productsService.putProduct(productId , product);
         }catch(error){
-            if(error.message === `id no encontrado`){
-                throw new ConflictException(error.message)
+            if(error instanceof ConflictException){
+                const status= error.getStatus()
+                return {
+                    statusCode: status,
+                    message: error.message
+                }
             } else {
                 throw new HttpException("Error inesperado", HttpStatus.CONFLICT)
             }
@@ -66,9 +74,13 @@ export class ProductsController{
      try{
         return await this.productsService.deleteProduct(productId)
      } catch (error){
-        if(error.message === `id no encontrado`){
-            throw new ConflictException(error.message)
-        }  else {
+        if(error instanceof ConflictException){
+            const status = error.getStatus();
+            return {
+                statusCode: status,
+                message: error.message
+            }
+        } else {
         throw new HttpException("Error inesperado", HttpStatus.CONFLICT) 
      }
     }
@@ -83,10 +95,15 @@ export class ProductsController{
       try{
         return await this.productsService.productId(productId);
       }catch(error){
-        if(error.message ===`id no encontrado`){
-            throw new ConflictException(error.message)
-        } else{
-            throw new HttpException("Error inesperado", HttpStatus.CONFLICT) 
+        if(error instanceof ConflictException){
+            const status = error.getStatus();
+            return {
+                statusCode: status,
+                message: error.message
+            }
+
+        }else{
+        throw new HttpException("Error inesperado", HttpStatus.CONFLICT) 
         }
       }  
     }

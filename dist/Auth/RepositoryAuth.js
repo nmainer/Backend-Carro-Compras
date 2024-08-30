@@ -22,15 +22,14 @@ let RespositoryAuth = class RespositoryAuth {
     async getLogin(Login) {
         const user = await this.userService.getUserByEmail(Login.email);
         if (!user) {
-            throw new Error("Usuario no registrado");
+            throw new common_1.NotFoundException("Usuario no registrado");
         }
         const hashPassword = await bcrypt.compare(Login.password, user.password);
         if (!hashPassword) {
-            throw new Error(`Usuario y/o contraseña incorrecta/s`);
-            ;
+            throw new common_1.UnauthorizedException(`Usuario y/o contraseña incorrecta/s`);
         }
         if (!Login.email && !Login.password) {
-            throw new Error("faltan datos");
+            throw new common_1.BadRequestException("faltan datos");
         }
         const userPayLoad = {
             subscribe: user.id,
@@ -43,15 +42,15 @@ let RespositoryAuth = class RespositoryAuth {
     }
     async getRegister(Register) {
         if (Register.password !== Register.confirmPassword) {
-            throw new Error("Las contraseñas deben coincidir");
+            throw new common_1.HttpException("Las contraseñas deben coincidir", common_1.HttpStatus.BAD_REQUEST);
         }
         const user = await this.userService.getUserByEmail(Register.email);
         if (user) {
-            throw new Error("el email actual ya se encuentra registrado");
+            throw new common_1.HttpException("El email ya se encuentra regitrado", common_1.HttpStatus.BAD_REQUEST);
         }
         const passwordHashed = await bcrypt.hash(Register.password, 10);
         if (!passwordHashed) {
-            throw new Error("password no fue hasheado");
+            throw new common_1.HttpException("password no fue hasheado", common_1.HttpStatus.CONFLICT);
         }
         return this.userService.getNewUser({ ...Register, password: passwordHashed });
     }

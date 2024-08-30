@@ -30,8 +30,12 @@ let CategoryController = class CategoryController {
             return await this.categoryService.addCategories(category);
         }
         catch (error) {
-            if (error.message.includes(`Ya existen las siguientes categorías:`)) {
-                throw new common_1.ConflictException(error.message);
+            if (error instanceof common_1.HttpException) {
+                const status = error.getStatus();
+                return {
+                    statusCode: status,
+                    message: error.message
+                };
             }
         }
     }
@@ -46,7 +50,7 @@ __decorate([
 ], CategoryController.prototype, "getCategories", null);
 __decorate([
     (0, common_1.Post)("seeder"),
-    openapi.ApiResponse({ status: 201, type: String }),
+    openapi.ApiResponse({ status: 201, type: Object }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [categoryDTO_1.ArrayCategoryDTO]),

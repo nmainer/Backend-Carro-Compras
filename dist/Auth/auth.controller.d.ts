@@ -7,6 +7,12 @@ export declare class AuthController {
     singIn(Login: CredentialDto): Promise<{
         success: string;
         token: string;
+    } | {
+        statusCode: number;
+        message: string;
     }>;
-    singUp(Register: CreateUserDto): Promise<Partial<import("../Entities/Users/Users.entity").User>>;
+    singUp(Register: CreateUserDto): Promise<Partial<import("../Entities/Users/Users.entity").User> | {
+        statusCode: number;
+        message: string;
+    }>;
 }

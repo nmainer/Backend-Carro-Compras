@@ -27,11 +27,19 @@ let OrderController = class OrderController {
             return await this.orderService.addOrder(order);
         }
         catch (error) {
-            if (error.message.includes('no poseen stock')) {
-                throw new common_1.BadRequestException("El/los productos seleccionados no posee/n stock");
+            if (error instanceof common_1.BadRequestException) {
+                const status = error.getStatus();
+                return {
+                    statusCode: status,
+                    message: error.message
+                };
             }
-            else if (error.message === `uno o varios productos no encontrados`) {
-                throw new common_1.NotFoundException(error.message);
+            if (error instanceof common_1.NotFoundException) {
+                const status = error.getStatus();
+                return {
+                    statusCode: status,
+                    message: error.message
+                };
             }
             else {
                 throw new Error('Error desconocido');

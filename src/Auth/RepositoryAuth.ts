@@ -1,6 +1,6 @@
 import { UsersRepository } from "../Users/User.Repository";
 import { CredentialDto} from "../DTO´S/LoginDto";
-import { BadRequestException, HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { BadRequestException, HttpException, HttpStatus, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import * as bcrypt from "bcryptjs";
 import { CreateUserDto } from "../DTO´S/UserDto";
 import { JwtService } from "@nestjs/jwt";
@@ -20,17 +20,17 @@ async getLogin(Login : CredentialDto){
 
 const user = await this.userService.getUserByEmail(Login.email);
 if(!user){
-    throw new Error("Usuario no registrado");
+    throw new NotFoundException("Usuario no registrado");
 }
 
 const hashPassword = await bcrypt.compare(Login.password, user.password);
 
 if(!hashPassword){
-    throw new Error(`Usuario y/o contraseña incorrecta/s`);;
+    throw new UnauthorizedException(`Usuario y/o contraseña incorrecta/s`);
 }
 
 if(!Login.email && !Login.password){
-    throw new Error("faltan datos")
+    throw new BadRequestException("faltan datos")
 }
 
 const userPayLoad = {
@@ -50,19 +50,18 @@ return {success: "Registro exitoso" , token};
 async getRegister(Register: CreateUserDto){
 
 if(Register.password !== Register.confirmPassword){
-    throw new Error("Las contraseñas deben coincidir");
+    throw new HttpException("Las contraseñas deben coincidir" , HttpStatus.BAD_REQUEST)
 }
 const user= await this.userService.getUserByEmail(Register.email);
 
 
 if(user){
-throw new Error ("el email actual ya se encuentra registrado");
+    throw new HttpException("El email ya se encuentra regitrado" , HttpStatus.BAD_REQUEST)
 }
-
 
 const passwordHashed = await bcrypt.hash(Register.password ,10);
 if(!passwordHashed){
-    throw new Error ("password no fue hasheado");
+    throw new HttpException ("password no fue hasheado", HttpStatus.CONFLICT)
 }
 
 

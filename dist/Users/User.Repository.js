@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const Users_entity_1 = require("../Entities/Users/Users.entity");
 const typeorm_2 = require("typeorm");
+;
 let UsersRepository = class UsersRepository {
     constructor(repositoryUser) {
         this.repositoryUser = repositoryUser;
@@ -45,7 +46,7 @@ let UsersRepository = class UsersRepository {
             };
         }
         else {
-            throw new Error("Usuario inexistente");
+            throw new common_1.NotFoundException("Usuario inexistente");
         }
     }
     async getNewUser(us) {
@@ -67,7 +68,9 @@ let UsersRepository = class UsersRepository {
             await this.repositoryUser.save(users);
             return `usuario con id N°${users.id} fue modificado`;
         }
-        throw new Error(`id no encontrado`);
+        else {
+            throw new common_1.NotFoundException("id no encontrado");
+        }
     }
     async deleteUser(id) {
         const user = await this.repositoryUser.findOne({ where: { id } });
@@ -75,8 +78,9 @@ let UsersRepository = class UsersRepository {
             const valor = await this.repositoryUser.remove(user);
             return `el registro ${valor} fue eliminado`;
         }
-        throw new Error(`id no encontrado`);
+        throw new common_1.NotFoundException(`id no encontrado`);
     }
+    ;
 };
 exports.UsersRepository = UsersRepository;
 exports.UsersRepository = UsersRepository = __decorate([

@@ -17,7 +17,6 @@ const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const products_service_1 = require("./products.service");
 const Auth_guard_1 = require("../Guard/Auth.guard");
-const products_entity_1 = require("../Entities/Products/products.entity");
 const ProductsDto_1 = require("../DTO\u00B4S/ProductsDto");
 const Roles_guard_1 = require("../Guard/Roles.guard");
 const Roles_decorator_1 = require("../Roles/Roles.decorator");
@@ -35,8 +34,12 @@ let ProductsController = class ProductsController {
             return await this.productsService.getNewProduct(product);
         }
         catch (error) {
-            if (error.message.includes(`Ya existen los sig productos:`)) {
-                throw new common_1.ConflictException(error.message);
+            if (error instanceof common_1.ConflictException) {
+                const status = error.getStatus();
+                return {
+                    statusCode: status,
+                    message: error.message
+                };
             }
             else {
                 throw new common_1.HttpException("Error inesperado", common_1.HttpStatus.CONFLICT);
@@ -49,8 +52,12 @@ let ProductsController = class ProductsController {
             return await this.productsService.putProduct(productId, product);
         }
         catch (error) {
-            if (error.message === `id no encontrado`) {
-                throw new common_1.ConflictException(error.message);
+            if (error instanceof common_1.ConflictException) {
+                const status = error.getStatus();
+                return {
+                    statusCode: status,
+                    message: error.message
+                };
             }
             else {
                 throw new common_1.HttpException("Error inesperado", common_1.HttpStatus.CONFLICT);
@@ -63,8 +70,12 @@ let ProductsController = class ProductsController {
             return await this.productsService.deleteProduct(productId);
         }
         catch (error) {
-            if (error.message === `id no encontrado`) {
-                throw new common_1.ConflictException(error.message);
+            if (error instanceof common_1.ConflictException) {
+                const status = error.getStatus();
+                return {
+                    statusCode: status,
+                    message: error.message
+                };
             }
             else {
                 throw new common_1.HttpException("Error inesperado", common_1.HttpStatus.CONFLICT);
@@ -77,8 +88,12 @@ let ProductsController = class ProductsController {
             return await this.productsService.productId(productId);
         }
         catch (error) {
-            if (error.message === `id no encontrado`) {
-                throw new common_1.ConflictException(error.message);
+            if (error instanceof common_1.ConflictException) {
+                const status = error.getStatus();
+                return {
+                    statusCode: status,
+                    message: error.message
+                };
             }
             else {
                 throw new common_1.HttpException("Error inesperado", common_1.HttpStatus.CONFLICT);
@@ -103,7 +118,7 @@ __decorate([
     (0, common_1.HttpCode)(201),
     (0, common_1.Post)("seeder"),
     (0, common_1.UseGuards)(Auth_guard_1.AuthGuard),
-    openapi.ApiResponse({ status: 201, type: String }),
+    openapi.ApiResponse({ status: 201, type: Object }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [ProductsDto_1.ProductsDto]),
@@ -115,11 +130,11 @@ __decorate([
     (0, common_1.Put)(":id"),
     (0, Roles_decorator_1.Roles)(Roles_enum_1.Rol.admin),
     (0, common_1.UseGuards)(Auth_guard_1.AuthGuard, Roles_guard_1.RolesGuard),
-    openapi.ApiResponse({ status: 200, type: String }),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, products_entity_1.Product]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], ProductsController.prototype, "getPutproducts", null);
 __decorate([
@@ -127,7 +142,7 @@ __decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.Delete)(":id"),
     (0, common_1.UseGuards)(Auth_guard_1.AuthGuard),
-    openapi.ApiResponse({ status: 200, type: String }),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -138,7 +153,7 @@ __decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(":id"),
     (0, common_1.UseGuards)(Auth_guard_1.AuthGuard),
-    openapi.ApiResponse({ status: 200, type: require("../Entities/Products/products.entity").Product }),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

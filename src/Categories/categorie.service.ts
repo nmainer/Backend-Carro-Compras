@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { ConflictException, HttpCode, HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Category } from "../Entities/Categories/categories.entity";
 import { ArrayCategoryDTO} from "../DTO´S/categoryDTO";
@@ -28,7 +28,7 @@ export class CategoryService {
         } 
       }
       if( existingCategories.length>0){
-        throw new Error (`Ya existen las siguientes categorías: ${existingCategories.join(",")}`)
+        throw new HttpException (`Ya existen las siguientes categorías: ${existingCategories.join(",")}`,HttpStatus.BAD_REQUEST)
       }
         return `Las categorias fueron cargadas`;
     }

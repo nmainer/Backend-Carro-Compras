@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, NotFoundException, Param, ParseUUIDPipe, Post, Put, Query, Req, UseGuards } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, NotFoundException, Param, ParseUUIDPipe, Post, Put, Query, Req, UseGuards } from "@nestjs/common";
 import { UserService } from "../Users/user.service";
 import { CreateUserDto } from "../DTO´S/UserDto";
 import { AuthGuard } from "../Guard/Auth.guard";
@@ -21,9 +21,10 @@ export class UserController{
     @HttpCode(200)
     @Get()
     @Roles(Rol.admin)
-    @UseGuards(AuthGuard , RolesGuard)
-    getUsers(@Query("page") page : number = 1 , @Query("limit") limit : number = 5 ) {
-    return this.userService.getUsers(page,limit)
+    @UseGuards(AuthGuard ,RolesGuard)
+    getUsers( @Query("page") page : number = 1 , @Query("limit") limit : number = 5 ) {
+    
+      return this.userService.getUsers(page,limit)
     }
 
     @Get("auth/user")
@@ -47,12 +48,16 @@ export class UserController{
     @HttpCode(200)
     @Put(":id")
     @UseGuards(AuthGuard)
-   async getPutUsers(@Param("id" , ParseUUIDPipe) id : string , @Body() userdto: CreateUserDto){
+   async getPutUsers(@Param("id" , ParseUUIDPipe) id : string , @Body() userdto: Partial<CreateUserDto>){
      try{
       return await  this.userService.getPutUsers(id , userdto)
      }catch(error){
-      if(error.message === `id no encontrado`){
-        throw new NotFoundException(error.message)
+      if(error instanceof NotFoundException){
+        const status = error.getStatus();
+        return {
+          statusCode: status ,
+          message: error.message
+        }
       }else {
         throw new HttpException( "Error inesperado", HttpStatus.CONFLICT)
       }
@@ -67,8 +72,12 @@ export class UserController{
       try{
         return await  this.userService.deleteUser(id);
       }catch(error){
-        if(error.message === `id no encontrado`){
-          throw new NotFoundException(error.message)
+        if(error instanceof NotFoundException){
+          const status = error.getStatus();
+          return {
+            statusCode: status ,
+            message: error.message
+          }
         }else {
           throw new HttpException( "Error inesperado", HttpStatus.CONFLICT)
         }
@@ -85,13 +94,15 @@ export class UserController{
   try{
     return await this.userService.getUserbyId(id);
   }catch(error){
-    if(error.message === "Usuario inexistente"){
-      throw new NotFoundException(error.message)
+    if(error instanceof NotFoundException){
+      const status = error.getStatus();
+          return {
+            statusCode: status ,
+            message: error.message
+          }
     }else {
       throw new HttpException( "Error inesperado", HttpStatus.CONFLICT)
     }
-  }}
-       
-} 
+  }};
         
-
+}

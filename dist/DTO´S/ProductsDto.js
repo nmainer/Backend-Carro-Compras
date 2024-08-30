@@ -13,31 +13,31 @@ exports.ProductsDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
 const class_transformer_1 = require("class-transformer");
 const class_validator_1 = require("class-validator");
-class Product {
+class ProductDTO {
 }
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
-], Product.prototype, "name", void 0);
+], ProductDTO.prototype, "name", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
-], Product.prototype, "description", void 0);
+], ProductDTO.prototype, "description", void 0);
 __decorate([
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
-], Product.prototype, "price", void 0);
+], ProductDTO.prototype, "price", void 0);
 __decorate([
     (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Number)
-], Product.prototype, "stock", void 0);
+], ProductDTO.prototype, "stock", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], Product.prototype, "category", void 0);
+], ProductDTO.prototype, "category", void 0);
 class ProductsDto {
 }
 exports.ProductsDto = ProductsDto;
@@ -45,7 +45,7 @@ __decorate([
     (0, class_validator_1.IsArray)(),
     (0, swagger_1.ApiProperty)({
         description: "Aqui se coloca el array de objetos de productos ",
-        type: [Product],
+        type: [ProductDTO],
         example: [
             {
                 name: "Iphone 15",
@@ -71,7 +71,7 @@ __decorate([
         ]
     }),
     (0, class_validator_1.ValidateNested)({ each: true }),
-    (0, class_transformer_1.Type)(() => Product),
+    (0, class_transformer_1.Type)(() => ProductDTO),
     __metadata("design:type", Array)
 ], ProductsDto.prototype, "products", void 0);
 //# sourceMappingURL=ProductsDto.js.map

@@ -8,7 +8,13 @@ export declare class UserController {
     userByAuth(req: Request): string;
     getUserByEmail(email: string): Promise<import("../Entities/Users/Users.entity").User>;
     getPostUsers(us: CreateUserDto): Promise<Partial<import("../Entities/Users/Users.entity").User>>;
-    getPutUsers(id: string, userdto: CreateUserDto): Promise<string>;
-    deleteUser(id: string): Promise<string>;
-    getUserbyId(id: string): Promise<object | Omit<import("./interfaces.user").User2, "admin">>;
+    getPutUsers(id: string, userdto: Partial<CreateUserDto>): Promise<string | {
+        statusCode: number;
+        message: string;
+    }>;
+    deleteUser(id: string): Promise<string | {
+        statusCode: number;
+        message: string;
+    }>;
+    getUserbyId(id: string): Promise<object>;
 }

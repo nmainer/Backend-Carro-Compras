@@ -16,16 +16,18 @@ return this.categoryService.getCategories();
 
 
 @Post("seeder")
-async addCategories(@Body() category : ArrayCategoryDTO) : Promise<string>{
+async addCategories(@Body() category : ArrayCategoryDTO){
 try{
-    return await this.categoryService.addCategories(category)
+    return await this.categoryService.addCategories(category);
+
 }catch (error){
-    if(error.message.includes(`Ya existen las siguientes categorías:`)){
-        throw new ConflictException(error.message)
+    if(error instanceof HttpException){
+        const status = error.getStatus();
+        return {
+            statusCode: status,
+            message: error.message
+        }
     }
 }
-
 }
-
-
 }

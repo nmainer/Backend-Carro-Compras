@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { BadRequestException, HttpException, HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
 import { OrderDto, CreateOrderDto } from "../DTO´S/OrderDTO";
 import { InjectRepository } from "@nestjs/typeorm";
 import { In, Repository } from "typeorm";
@@ -36,12 +36,12 @@ export class OrderService{
       const productUnavailable = await productsId.filter(producto =>producto.stock <=0);
       if(productUnavailable.length > 0){
 
-        throw new Error(`el/los producto/s : ${productUnavailable.map (producto =>producto.id).join(",")} no poseen stock`);
+        throw new BadRequestException(`el/los producto/s : ${productUnavailable.map (producto =>producto.id).join(",")} no poseen stock`);
       }
 
       if(productsId.length !== products.length){
 
-        throw new Error( `uno o varios productos no encontrados`);
+        throw new NotFoundException ( `uno o varios productos no encontrados`);
     
       }
       

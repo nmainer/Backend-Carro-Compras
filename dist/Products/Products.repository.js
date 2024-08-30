@@ -53,7 +53,7 @@ let ProductsRepository = class ProductsRepository {
             }
         }
         if (productsExist.length > 0) {
-            throw new Error(`Ya existen los sig productos:${productsExist.join(",")}`);
+            throw new common_1.ConflictException(`Ya existen los sig productos:${productsExist.join(",")}`);
         }
         return `producto/s creado/s`;
     }
@@ -64,7 +64,9 @@ let ProductsRepository = class ProductsRepository {
             await this.repositoryProduct.save(actualizer);
             return `producto con N° id ${id} fue modificado`;
         }
-        throw new Error(`id no encontrado`);
+        else {
+            throw new common_1.ConflictException("id no encontrado");
+        }
     }
     async deleteProduct(id) {
         const productId = await this.repositoryProduct.findOneBy({ id });
@@ -72,14 +74,18 @@ let ProductsRepository = class ProductsRepository {
             this.repositoryProduct.delete(productId);
             return ` el producto con id N° ${id} fue eliminado`;
         }
-        throw new Error(`id no encontrado`);
+        else {
+            throw new common_1.ConflictException("id no encontrado");
+        }
     }
     async productId(id) {
-        const productId = this.repositoryProduct.findOne({ where: { id } });
+        const productId = await this.repositoryProduct.findOne({ where: { id } });
         if (productId) {
             return productId;
         }
-        throw new Error(`id no encontrado`);
+        else {
+            throw new common_1.ConflictException("producto no encontrado");
+        }
     }
 };
 exports.ProductsRepository = ProductsRepository;

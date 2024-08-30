@@ -35,10 +35,10 @@ let OrderService = class OrderService {
         const productsId = await this.respositoryProduct.find({ where: { id: (0, typeorm_2.In)(products) } });
         const productUnavailable = await productsId.filter(producto => producto.stock <= 0);
         if (productUnavailable.length > 0) {
-            throw new Error(`el/los producto/s : ${productUnavailable.map(producto => producto.id).join(",")} no poseen stock`);
+            throw new common_1.BadRequestException(`el/los producto/s : ${productUnavailable.map(producto => producto.id).join(",")} no poseen stock`);
         }
         if (productsId.length !== products.length) {
-            throw new Error(`uno o varios productos no encontrados`);
+            throw new common_1.NotFoundException(`uno o varios productos no encontrados`);
         }
         for (let i = 0; i < productsId.length; i = i + 1) {
             let producto = productsId[i];

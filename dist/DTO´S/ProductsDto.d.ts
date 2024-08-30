@@ -1,4 +1,4 @@
-declare class Product {
+declare class ProductDTO {
     name: string;
     description: string;
     price: number;
@@ -6,6 +6,6 @@ declare class Product {
     category: string;
 }
 export declare class ProductsDto {
-    products: Product[];
+    products: ProductDTO[];
 }
 export {};

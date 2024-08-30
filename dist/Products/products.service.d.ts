@@ -6,7 +6,7 @@ export declare class ProductsService {
     constructor(productsRepository: ProductsRepository);
     getProducts(page: number, limit: number): Promise<Product[]>;
     getNewProduct(product: ProductsDto): Promise<string>;
-    putProduct(id: string, product: Product): Promise<string>;
+    putProduct(id: string, product: Partial<Product>): Promise<string>;
     deleteProduct(id: string): Promise<string>;
     productId(id: string): Promise<Product>;
 }

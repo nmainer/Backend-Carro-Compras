@@ -19,7 +19,7 @@ export class ProductsService {
     getNewProduct(product:ProductsDto) {
         return this.productsRepository.getNewProduct(product);
     }
-    putProduct(id:string, product: Product) {
+    putProduct(id:string, product: Partial<Product>) {
      return this.productsRepository.putProduct(id , product);
     }
     deleteProduct(id : string) {

@@ -16,7 +16,6 @@ export class AuthService {
 
     SingIn(Login : CredentialDto) {
     return this.repositoryAuth.getLogin(Login);
-    }
-    
+    } 
 };
 

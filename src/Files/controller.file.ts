@@ -1,4 +1,4 @@
-import { Controller, Param, Post, Put, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Controller, HttpException, Param, Post, Put, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ServiceFile } from "./service.file";
 import { MinSizeAndFormat } from "../Pipes/minSize.pipe";
@@ -17,7 +17,17 @@ export class ControllerFile {
     @UseGuards(AuthGuard)
     @UseInterceptors(FileInterceptor("file"))
     async addFile(@Param("id") id: string , @UploadedFile(new MinSizeAndFormat()) file: Express.Multer.File){
-      console.log(file)
-      return this.serviceFile.addFile(id, file);
+    try{
+      return await this.serviceFile.addFile(id, file);
+    } catch(error){
+      if(error instanceof HttpException){
+        const status = error.getStatus();
+        return {
+          statusCode: status,
+          message: error.message
+        }
+      }
+    }
+      
     }
 }
