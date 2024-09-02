@@ -30,7 +30,9 @@ export class OrderService{
      }
      
 
-      const productsId = await this.respositoryProduct.find({where:{id: In(products)}});
+
+      const idofProducts = products.map((products)=>products.id);
+      const productsId = await this.respositoryProduct.find({where:{id: In(idofProducts)}});
       
 
       const productUnavailable = await productsId.filter(producto =>producto.stock <=0);
