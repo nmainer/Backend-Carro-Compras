@@ -32,7 +32,8 @@ let OrderService = class OrderService {
         if (!userById) {
             throw new Error(`usuario inexistente`);
         }
-        const productsId = await this.respositoryProduct.find({ where: { id: (0, typeorm_2.In)(products) } });
+        const idofProducts = products.map((products) => products.id);
+        const productsId = await this.respositoryProduct.find({ where: { id: (0, typeorm_2.In)(idofProducts) } });
         const productUnavailable = await productsId.filter(producto => producto.stock <= 0);
         if (productUnavailable.length > 0) {
             throw new common_1.BadRequestException(`el/los producto/s : ${productUnavailable.map(producto => producto.id).join(",")} no poseen stock`);
