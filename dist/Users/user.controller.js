@@ -89,7 +89,6 @@ let UserController = class UserController {
             }
         }
     }
-    ;
 };
 exports.UserController = UserController;
 __decorate([

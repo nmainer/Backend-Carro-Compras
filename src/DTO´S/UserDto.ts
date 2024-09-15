@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsArray, IsEmail, IsEmpty, IsEnum, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString, Length, Matches } from "class-validator";
+import { IsArray, IsBoolean, IsEmail, IsEmpty, IsEnum, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString, Length, Matches } from "class-validator";
 
 
 export class CreateUserDto {
@@ -44,7 +44,9 @@ password: string
 })
 confirmPassword: string
 
-
+@IsBoolean()
+@ApiProperty()
+admin:boolean
 
 @IsString()
 @Length(3,80, {message: "address debe contener un minimo de 3 hasta 80 caracteres"})

@@ -103,6 +103,6 @@ export class UserController{
     }else {
       throw new HttpException( "Error inesperado", HttpStatus.CONFLICT)
     }
-  }};
+  }}
         
 }

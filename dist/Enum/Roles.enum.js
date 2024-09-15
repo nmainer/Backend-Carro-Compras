@@ -4,5 +4,6 @@ exports.Rol = void 0;
 var Rol;
 (function (Rol) {
     Rol["admin"] = "ADMIN";
+    Rol["invit"] = "INVT";
 })(Rol || (exports.Rol = Rol = {}));
 //# sourceMappingURL=Roles.enum.js.map

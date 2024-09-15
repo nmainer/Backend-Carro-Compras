@@ -1,3 +1,4 @@
 export declare enum Rol {
-    admin = "ADMIN"
+    admin = "ADMIN",
+    invit = "INVT"
 }
