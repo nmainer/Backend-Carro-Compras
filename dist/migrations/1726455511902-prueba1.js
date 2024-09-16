@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Prueba11724644588650 = void 0;
-class Prueba11724644588650 {
+exports.Prueba11726455511902 = void 0;
+class Prueba11726455511902 {
     constructor() {
-        this.name = 'Prueba11724644588650';
+        this.name = 'Prueba11726455511902';
     }
     async up(queryRunner) {
         await queryRunner.query(`CREATE TABLE "categories" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying(50) NOT NULL, CONSTRAINT "UQ_8b0be371d28245da6e4f4b61878" UNIQUE ("name"), CONSTRAINT "PK_24dbc6126a28ff948da33e97d3b" PRIMARY KEY ("id"))`);
@@ -36,5 +36,5 @@ class Prueba11724644588650 {
         await queryRunner.query(`DROP TABLE "categories"`);
     }
 }
-exports.Prueba11724644588650 = Prueba11724644588650;
-//# sourceMappingURL=1724644588650-prueba1.js.map
+exports.Prueba11726455511902 = Prueba11726455511902;
+//# sourceMappingURL=1726455511902-prueba1.js.map
